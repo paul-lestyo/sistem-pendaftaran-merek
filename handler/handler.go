@@ -11,6 +11,7 @@ func GetAllUsers(c *fiber.Ctx) error {
 	var users []model.User
 
 	db.Find(&users)
-	return c.Status(200).JSON(
-		fiber.Map{"status": "sucess", "message": "Users Found", "data": users})
+	return c.Render("user/index", fiber.Map{
+		"Users": users,
+	})
 }

@@ -11,7 +11,7 @@ type Announcement struct {
 	Desc      string    `gorm:"type:text; not null"`
 	Tag       string    `gorm:"not null"`
 	ImageUrl  string
-	CreatedBy int
+	CreatedBy uuid.UUID
 	User      User `gorm:"foreignKey:CreatedBy"`
 }
 

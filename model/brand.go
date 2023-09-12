@@ -4,13 +4,13 @@ import "github.com/google/uuid"
 
 type Brand struct {
 	ID          uuid.UUID `gorm:"type:char(36);primaryKey"`
-	BusinessID  int
+	BusinessID  uuid.UUID
 	Business    Business
 	BrandName   string `gorm:"not null"`
 	DescBrand   string `gorm:"not null"`
-	CreatedByID int
+	CreatedByID uuid.UUID
 	CreatedBy   User `gorm:"foreignKey:CreatedByID"`
-	UpdatedByID int
+	UpdatedByID uuid.UUID
 	UpdatedBy   User `gorm:"foreignKey:UpdatedByID"`
 }
 

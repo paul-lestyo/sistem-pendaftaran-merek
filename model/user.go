@@ -7,11 +7,11 @@ import (
 
 type User struct {
 	ID       uuid.UUID `gorm:"type:char(36);primaryKey"`
-	Name     string    `gorm:"not null"`
-	Email    string    `gorm:"unique,not null"`
-	Password string    `gorm:"not null"`
-	ImageUrl string    `gorm:"not null"`
-	RoleID   int
+	Name     string    `gorm:"type:varchar(255);not null"`
+	Email    string    `gorm:"type:varchar(255);unique,not null"`
+	Password string    `gorm:"type:varchar(255);not null"`
+	ImageUrl string    `gorm:"type:varchar(255);not null"`
+	RoleID   uuid.UUID
 	Role     Role
 }
 

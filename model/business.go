@@ -7,7 +7,7 @@ import (
 
 type Business struct {
 	ID                uuid.UUID `gorm:"type:char(36);primaryKey"`
-	UserID            int
+	UserID            uuid.UUID
 	User              User
 	BusinessName      string `gorm:"not null"`
 	OwnerName         string `gorm:"not null"`

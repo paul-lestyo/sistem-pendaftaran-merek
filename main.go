@@ -4,6 +4,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/template/html/v2"
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/database"
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/router"
 )
@@ -11,7 +12,11 @@ import (
 func main() {
 	database.Connect()
 
-	app := fiber.New()
+	engine := html.New("./views", ".gohtml")
+
+	app := fiber.New(fiber.Config{
+		Views: engine,
+	})
 	app.Use(logger.New())
 	app.Use(cors.New())
 	router.SetupRoutes(app)
