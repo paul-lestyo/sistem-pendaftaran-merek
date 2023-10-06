@@ -1,7 +1,6 @@
 package auth
 
 import (
-	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 	"github.com/mitchellh/mapstructure"
@@ -16,27 +15,19 @@ var ResultIDRole struct {
 
 type RegisterUser struct {
 	Name     string `validate:"required,min=5,max=50"`
-	Email    string `validate:"required,min=5,max=30,email"`
+	Email    string `validate:"required,min=5,email,unique email"`
 	Password string `validate:"required,min=8"`
 	ImageUrl string
 	Role     string
 }
 
 func Register(c *fiber.Ctx) error {
-	sess, _ := store.Get(c)
-	errMsgs := sess.Get("errors")
-	fmt.Println(errMsgs)
 	return c.Render("auth/register", fiber.Map{
 		"Errors": RegisterUser{},
 	})
 }
 
 func CheckRegister(c *fiber.Ctx) error {
-	sess, err := store.Get(c)
-	if err != nil {
-		panic(err)
-	}
-
 	database.DB.Table("roles").Select("id").Where("name = ?", "Pemohon").First(&ResultIDRole)
 	registerUser := RegisterUser{
 		Name:     c.FormValue("name"),
@@ -64,9 +55,7 @@ func CheckRegister(c *fiber.Ctx) error {
 
 	result := database.DB.Create(&user)
 	if result != nil {
-		sess.Set("LoggedIn", ResultIDRole.ID)
-		sess.Save()
-		return c.RedirectBack("/register")
+		return c.Redirect("/login")
 	}
 	return nil
 }

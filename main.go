@@ -1,13 +1,18 @@
 package main
 
 import (
+	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/fiber/v2/middleware/session"
 	"github.com/gofiber/template/html/v2"
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/database"
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/router"
 )
+
+var Validate = validator.New()
+var Store = session.New()
 
 func main() {
 	database.Connect()
