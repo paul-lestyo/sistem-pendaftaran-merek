@@ -8,6 +8,7 @@ import (
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/helper"
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/model"
 	"golang.org/x/crypto/bcrypt"
+	"strings"
 )
 
 var validate = validator.New()
@@ -30,13 +31,14 @@ func CheckLogin(c *fiber.Ctx) error {
 	password := c.FormValue("password")
 
 	var user model.User
-	err := database.DB.Where("email = ?", email).First(&user).Error
+	err := database.DB.Preload("Role").Where("email = ?", email).First(&user).Error
 	if err == nil {
 		fmt.Println(bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)))
 		if err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err == nil {
 			helper.SetSession(c, "LoggedIn", user.ID.String())
+			helper.SetSession(c, "RoleUser", user.Role.Name)
 
-			return c.Redirect("/dashboard")
+			return c.Redirect(strings.ToLower(user.Role.Name) + "/dashboard")
 		}
 	}
 
