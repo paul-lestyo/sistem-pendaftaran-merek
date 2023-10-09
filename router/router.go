@@ -4,6 +4,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/controller"
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/controller/auth"
+	"github.com/paul-lestyo/sistem-pendaftaran-merek/controller/pemohon"
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/middleware"
 )
 
@@ -16,15 +17,18 @@ func SetupRoutes(app *fiber.App) {
 	app.Get("/register", middleware.GuestMiddleware, auth.Register)
 	app.Post("/register", middleware.GuestMiddleware, auth.CheckRegister)
 
-	admin := app.Group("/admin")
-	admin.Get("/dashboard", AdminAuth.AuthMiddleware, func(c *fiber.Ctx) error {
+	admin := app.Group("/admin", AdminAuth.AuthMiddleware)
+	admin.Get("/dashboard", func(c *fiber.Ctx) error {
 		return c.SendString("I'm a GET request dashboard admin!")
 	})
 
-	pemohon := app.Group("/pemohon")
-	pemohon.Get("/dashboard", PemohonAuth.AuthMiddleware, func(c *fiber.Ctx) error {
+	pemohonGroup := app.Group("/pemohon", PemohonAuth.AuthMiddleware)
+	pemohonGroup.Get("/dashboard", func(c *fiber.Ctx) error {
 		return c.SendString("I'm a GET request dashboard pemohon!")
 	})
+
+	pemohonGroup.Get("profile", pemohon.ProfilePemohon)
+	pemohonGroup.Post("profile", pemohon.UpdatePemohon)
 
 	user := app.Group("/user")
 

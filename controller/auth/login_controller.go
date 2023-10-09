@@ -14,9 +14,6 @@ import (
 var validate = validator.New()
 
 func Login(c *fiber.Ctx) error {
-
-	fmt.Println(helper.GetSession(c, "LoggedIn"))
-
 	message := helper.GetSession(c, "message")
 	helper.DeleteSession(c, "message")
 

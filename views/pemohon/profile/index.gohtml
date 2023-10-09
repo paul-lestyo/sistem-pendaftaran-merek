@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>User Profile</title>
+</head>
+<h1>User Profile</h1>
+{{if .message}}
+  {{.message}}
+{{end}}
+<form method="POST">
+  <label for="name">Name: </label>
+  <input type="text" name="name" value="{{.User.Name}}"> <br>
+  {{ with .Errors.Name }}
+    <div class="alert alert-danger">
+      {{.}}
+    </div>
+  {{ end }}
+  <label for="email">Email: </label>
+  <input type="text" disabled value="{{.User.Email}}"> <br>
+  {{ with .Errors.Email }}
+    <div class="alert alert-danger">
+      {{.}}
+    </div>
+  {{ end }}
+
+  <input type="submit" value="Simpan Perubahan"/>
+</form>
+</body>
+</html>
