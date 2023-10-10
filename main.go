@@ -18,12 +18,15 @@ func main() {
 	database.Connect()
 
 	engine := html.New("./views", ".gohtml")
+	engine.Reload(true)
+	engine.Debug(true)
 
 	app := fiber.New(fiber.Config{
 		Views: engine,
 	})
 	app.Use(logger.New())
 	app.Use(cors.New())
+	app.Static("/", "./assets")
 	router.SetupRoutes(app)
 
 	app.Use(func(c *fiber.Ctx) error {

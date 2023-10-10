@@ -23,9 +23,7 @@ func SetupRoutes(app *fiber.App) {
 	})
 
 	pemohonGroup := app.Group("/pemohon", PemohonAuth.AuthMiddleware)
-	pemohonGroup.Get("/dashboard", func(c *fiber.Ctx) error {
-		return c.SendString("I'm a GET request dashboard pemohon!")
-	})
+	pemohonGroup.Get("/dashboard", pemohon.Dashboard)
 
 	pemohonGroup.Get("profile", pemohon.ProfilePemohon)
 	pemohonGroup.Post("profile", pemohon.UpdatePemohon)

@@ -17,7 +17,7 @@ type UpdateProfileUser struct {
 
 func ProfilePemohon(c *fiber.Ctx) error {
 	message := helper.GetSession(c, "successMessage")
-	helper.DeleteSession(c, "message")
+	helper.DeleteSession(c, "successMessage")
 	var user model.User
 
 	err := database.DB.First(&user, "id = ?", helper.GetSession(c, "LoggedIn")).Error
@@ -25,7 +25,7 @@ func ProfilePemohon(c *fiber.Ctx) error {
 	return c.Render("pemohon/profile/index", fiber.Map{
 		"User":    user,
 		"message": message,
-	})
+	}, "layouts/pemohon")
 }
 
 func UpdatePemohon(c *fiber.Ctx) error {
@@ -61,5 +61,5 @@ func showProfilePemohonErrors(c *fiber.Ctx, oldInput UpdateProfileUser, errs map
 	return c.Render("pemohon/profile/index", fiber.Map{
 		"oldInput": oldInput,
 		"Errors":   errsStruct,
-	})
+	}, "layouts/pemohon")
 }
