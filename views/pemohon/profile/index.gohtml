@@ -24,7 +24,13 @@
     <div class="input-file">
       <input type="file" id="profile-image" name="profile_image" accept="image/*">
       <small>Pilih foto baru</small>
+      {{ with .Errors.Image }}
+        <div class="alert alert-danger">
+          {{.}}
+        </div>
+      {{ end }}
     </div>
+
   </div>
 
   <label for="name">Name: </label>
@@ -36,11 +42,6 @@
   {{ end }}
   <label for="email">Email: </label>
   <input type="text" disabled value="{{.User.Email}}"> <br>
-  {{ with .Errors.Email }}
-    <div class="alert alert-danger">
-      {{.}}
-    </div>
-  {{ end }}
 
   <input type="submit" value="Simpan Perubahan"/>
 </form>

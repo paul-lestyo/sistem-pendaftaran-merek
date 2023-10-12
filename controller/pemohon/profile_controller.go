@@ -1,18 +1,21 @@
 package pemohon
 
 import (
+	"fmt"
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/mitchellh/mapstructure"
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/database"
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/helper"
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/model"
+	"path/filepath"
 )
 
 var validate = validator.New()
 
 type UpdateProfileUser struct {
-	Name string `validate:"required,min=5,max=50"`
+	Name  string       `validate:"required,min=5,max=50"`
+	Image helper.Image `validate:"omitempty,image_upload"`
 }
 
 func ProfilePemohon(c *fiber.Ctx) error {
@@ -29,8 +32,21 @@ func ProfilePemohon(c *fiber.Ctx) error {
 }
 
 func UpdatePemohon(c *fiber.Ctx) error {
+	img := helper.Image{}
+	file, err := c.FormFile("profile_image")
+	if err == nil {
+		img = helper.Image{
+			Path:        filepath.Dir(file.Filename),
+			Filename:    filepath.Base(file.Filename),
+			Ext:         filepath.Ext(file.Filename),
+			ContentType: file.Header.Get("Content-Type"),
+			Size:        file.Size,
+		}
+	}
+
 	updateRegisterUser := UpdateProfileUser{
-		Name: c.FormValue("name"),
+		Name:  c.FormValue("name"),
+		Image: img,
 	}
 
 	registerValidator := &helper.Validator{
@@ -42,11 +58,11 @@ func UpdatePemohon(c *fiber.Ctx) error {
 	}
 
 	var user model.User
-	err := database.DB.First(&user, "id = ?", helper.GetSession(c, "LoggedIn")).Error
+	err = database.DB.First(&user, "id = ?", helper.GetSession(c, "LoggedIn")).Error
 	helper.PanicIfError(err)
 
 	user.Name = c.FormValue("name")
-	if newImage := CheckUploadImageProfile(c); newImage != "" {
+	if newImage := UploadImageProfile(c); newImage != "" {
 		user.ImageUrl = newImage
 	}
 	err = database.DB.Save(&user).Error
@@ -56,26 +72,37 @@ func UpdatePemohon(c *fiber.Ctx) error {
 	return c.Redirect("/pemohon/profile")
 }
 
-func CheckUploadImageProfile(c *fiber.Ctx) string {
+func UploadImageProfile(c *fiber.Ctx) string {
 	filename := ""
 	file, err := c.FormFile("profile_image")
 	if err != nil {
-		return ""
+		return filename
 	}
 
 	if file.Size != 0 {
 		filename = "/uploads/profile/" + file.Filename
-		err = c.SaveFile(file, "assets"+filename)
+		err := c.SaveFile(file, "assets"+filename)
+		helper.PanicIfError(err)
 	}
 	return filename
 }
 
+type MessageProfileUser struct {
+	Name  string
+	Image string
+}
+
 func showProfilePemohonErrors(c *fiber.Ctx, oldInput UpdateProfileUser, errs map[string]string) error {
-	var errsStruct = UpdateProfileUser{}
+	var user model.User
+	err := database.DB.First(&user, "id = ?", helper.GetSession(c, "LoggedIn")).Error
+	helper.PanicIfError(err)
+	fmt.Println(errs)
+	var errsStruct = MessageProfileUser{}
 	if err := mapstructure.Decode(errs, &errsStruct); err != nil {
 		panic(err)
 	}
 	return c.Render("pemohon/profile/index", fiber.Map{
+		"User":     user,
 		"oldInput": oldInput,
 		"Errors":   errsStruct,
 	}, "layouts/pemohon")
