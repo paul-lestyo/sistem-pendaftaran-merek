@@ -46,11 +46,28 @@ func UpdatePemohon(c *fiber.Ctx) error {
 	helper.PanicIfError(err)
 
 	user.Name = c.FormValue("name")
+	if newImage := CheckUploadImageProfile(c); newImage != "" {
+		user.ImageUrl = newImage
+	}
 	err = database.DB.Save(&user).Error
 	helper.PanicIfError(err)
 
 	helper.SetSession(c, "successMessage", "Profile Berhasil Diubah!")
 	return c.Redirect("/pemohon/profile")
+}
+
+func CheckUploadImageProfile(c *fiber.Ctx) string {
+	filename := ""
+	file, err := c.FormFile("profile_image")
+	if err != nil {
+		return ""
+	}
+
+	if file.Size != 0 {
+		filename = "/uploads/profile/" + file.Filename
+		err = c.SaveFile(file, "assets"+filename)
+	}
+	return filename
 }
 
 func showProfilePemohonErrors(c *fiber.Ctx, oldInput UpdateProfileUser, errs map[string]string) error {

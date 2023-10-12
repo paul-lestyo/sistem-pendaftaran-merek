@@ -8,7 +8,25 @@
 {{if .message}}
   {{.message}}
 {{end}}
-<form method="POST">
+<form method="POST" enctype="multipart/form-data">
+  <div class="form-group">
+    <div class="label-and-profile">
+      <label for="profile-image">Foto Diri:</label>
+      <div class="profile-image">
+        {{if .User.ImageUrl }}
+          <img src="{{.User.ImageUrl}}" alt="Profile Image">
+        {{else}}
+          <img src="/img/default-profile.png" alt="Profile Image">
+        {{end}}
+
+      </div>
+    </div>
+    <div class="input-file">
+      <input type="file" id="profile-image" name="profile_image" accept="image/*">
+      <small>Pilih foto baru</small>
+    </div>
+  </div>
+
   <label for="name">Name: </label>
   <input type="text" name="name" value="{{.User.Name}}"> <br>
   {{ with .Errors.Name }}
