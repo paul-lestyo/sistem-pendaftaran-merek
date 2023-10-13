@@ -1,0 +1,96 @@
+.sidebar {
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #333;
+    padding-top: 20px;
+}
+
+.sidebar a {
+    padding: 15px 25px;
+    text-decoration: none;
+    font-size: 20px;
+    color: white;
+    display: block;
+}
+
+.sidebar a:hover {
+    background-color: #555;
+}
+
+/* Style untuk konten dashboard */
+main {
+    margin-left: 250px;
+    padding: 20px;
+}
+
+/* Style untuk judul h1 */
+h1 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Style untuk label pada form */
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+/* Style untuk input pada form */
+input[type="text"] {
+    width: calc(100% - 20px); /* Adjust the width as needed */
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+/* Style untuk tombol pada form */
+input[type="submit"] {
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+input[type="submit"]:hover {
+    background-color: #555;
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
+    margin-bottom: 10px;
+}
+
+.form-group .label-and-profile {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group .label-and-profile label {
+    flex-basis: 30%;
+    text-align: left;
+}
+
+.form-group .label-and-profile img {
+    max-height: 150px;
+}
+
+.form-group .input-file {
+    flex-basis: 40%;
+}
+
+.form-group .input-file input[type="file"] {
+    width: 100%;
+}
