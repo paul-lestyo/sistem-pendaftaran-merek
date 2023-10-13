@@ -16,7 +16,7 @@ var ResultIDRole struct {
 type RegisterUser struct {
 	Name     string `validate:"required,min=5,max=50"`
 	Email    string `validate:"required,min=5,email,unique email"`
-	Password string `validate:"required,min=8"`
+	Password string `validate:"required,min=3"`
 	ImageUrl string
 	Role     string
 }

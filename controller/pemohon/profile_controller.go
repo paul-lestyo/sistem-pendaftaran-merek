@@ -14,8 +14,8 @@ import (
 var validate = validator.New()
 
 type UpdateProfileUser struct {
-	Name  string       `validate:"required,min=5,max=50"`
-	Image helper.Image `validate:"omitempty,image_upload"`
+	Name  string           `validate:"required,min=5,max=50"`
+	Image helper.FileInput `validate:"omitempty,image_upload"`
 }
 
 func ProfilePemohon(c *fiber.Ctx) error {
@@ -32,10 +32,10 @@ func ProfilePemohon(c *fiber.Ctx) error {
 }
 
 func UpdatePemohon(c *fiber.Ctx) error {
-	img := helper.Image{}
+	img := helper.FileInput{}
 	file, err := c.FormFile("profile_image")
-	if err == nil {
-		img = helper.Image{
+	if err == nil && file.Size > 0 {
+		img = helper.FileInput{
 			Path:        filepath.Dir(file.Filename),
 			Filename:    filepath.Base(file.Filename),
 			Ext:         filepath.Ext(file.Filename),
@@ -69,7 +69,7 @@ func UpdatePemohon(c *fiber.Ctx) error {
 	helper.PanicIfError(err)
 
 	helper.SetSession(c, "successMessage", "Profile Berhasil Diubah!")
-	return c.Redirect("/pemohon/profile")
+	return c.Redirect("/pemohon/profile/user")
 }
 
 func UploadImageProfile(c *fiber.Ctx) string {

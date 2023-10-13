@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+</head>
+<h1>Business Profile</h1>
+<h2>Business Profile wajib dilengkapi untuk melakukan pendaftaran merek!</h2>
+{{if .message}}
+    {{.message}}
+{{end}}
+<form method="POST" enctype="multipart/form-data">
+    <label for="name">Nama Bisnis: </label>
+    <input type="text" name="business_name" value="{{.Business.BusinessName }}"> <br>
+    {{ with .Errors.BusinessName }}
+        <div class="alert alert-danger">
+            {{.}}
+        </div>
+    {{ end }}
+
+    <label for="name">Alamat Bisnis: </label>
+    <input type="text" name="business_address" value="{{.Business.BusinessAddress }}"> <br>
+    {{ with .Errors.BusinessAddress }}
+        <div class="alert alert-danger">
+            {{.}}
+        </div>
+    {{ end }}
+    <label for="email">Nama Owner: </label>
+    <input type="text" name="owner_name" value="{{.Business.OwnerName}}"> <br>
+    {{ with .Errors.OwnerName }}
+        <div class="alert alert-danger">
+            {{.}}
+        </div>
+    {{ end }}
+
+    <label for="umk_certificate_url">Surat keterangan UMK: </label>
+    <input type="file" name="umk_certificate_url" accept="image/*">
+    <small>(optional, pdf/jpg)</small>
+    {{ with .Errors.UMKCertificate }}
+        <div class="alert alert-danger">
+            {{.}}
+        </div>
+    {{ end }}
+
+    <label for="signature_url">Tanda Tangan: </label>
+    <input type="file" name="signature_url" accept="image/*">
+    <small>(optional, pdf/jpg)</small>
+    {{ with .Errors.Signature }}
+        <div class="alert alert-danger">
+            {{.}}
+        </div>
+    {{ end }}
+    <br> <br>
+    <input type="submit" value="Simpan Perubahan"/>
+</form>
+</body>
+</html>

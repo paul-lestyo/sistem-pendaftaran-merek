@@ -25,11 +25,14 @@ func SetupRoutes(app *fiber.App) {
 	pemohonGroup := app.Group("/pemohon", PemohonAuth.AuthMiddleware)
 	pemohonGroup.Get("/dashboard", pemohon.Dashboard)
 
-	pemohonGroup.Get("profile", pemohon.ProfilePemohon)
-	pemohonGroup.Post("profile", pemohon.UpdatePemohon)
+	pemohonProfile := pemohonGroup.Group("/profile")
+	pemohonProfile.Get("user", pemohon.ProfilePemohon)
+	pemohonProfile.Post("user", pemohon.UpdatePemohon)
+
+	pemohonProfile.Get("business", pemohon.ProfileBusiness)
+	pemohonProfile.Post("business", pemohon.UpdateBusiness)
 
 	user := app.Group("/user")
-
 	user.Get("/", controller.GetAllUsers)
 	//user.Get("/create", controller.CreateUser)
 	//user.Post("/create", controller.StoreUser)

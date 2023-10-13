@@ -9,13 +9,14 @@ import (
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/database"
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/model"
 	"gorm.io/gorm"
+	"reflect"
 )
 
 type Validator struct {
 	Validator *validator.Validate
 }
 
-type Image struct {
+type FileInput struct {
 	Path        string
 	Filename    string
 	Ext         string
@@ -31,6 +32,10 @@ var trans, _ = uni.GetTranslator("en")
 func (v Validator) Validate(data interface{}) map[string]string {
 	_ = enTranslations.RegisterDefaultTranslations(validate, trans)
 
+	validate.RegisterTagNameFunc(func(field reflect.StructField) string {
+		return field.Tag.Get("name")
+	})
+
 	validate.RegisterValidation("unique email", func(fl validator.FieldLevel) bool {
 		var existingUser model.User
 		result := database.DB.Where("email = ?", fl.Field().String()).First(&existingUser)
@@ -41,8 +46,7 @@ func (v Validator) Validate(data interface{}) map[string]string {
 	})
 
 	validate.RegisterValidation("image_upload", func(fl validator.FieldLevel) bool {
-		image := fl.Field().Interface().(Image)
-		fmt.Println(image)
+		image := fl.Field().Interface().(FileInput)
 
 		var acceptedImages = map[string]bool{
 			"image/png":  true,
@@ -74,7 +78,7 @@ func translateError(err error, val map[string]string, trans ut.Translator) map[s
 	validatorErrs := err.(validator.ValidationErrors)
 	for _, e := range validatorErrs {
 		translatedErr := fmt.Errorf(e.Translate(trans))
-		val[e.Field()] = translatedErr.Error()
+		val[e.StructField()] = translatedErr.Error()
 	}
 	return val
 }
