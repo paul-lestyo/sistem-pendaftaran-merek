@@ -1,8 +1,8 @@
 package helper
 
 import (
-	"fmt"
 	"github.com/gofiber/fiber/v2"
+	"os"
 	"path/filepath"
 )
 
@@ -33,8 +33,11 @@ func UploadFile(c *fiber.Ctx, inputFileName string, filepath string) (string, bo
 	}
 
 	if file.Size != 0 {
-		filename = "/uploads/" + filepath + "/" + file.Filename
-		fmt.Println("hoho: ", filename)
+		uploadDir := "/uploads/" + filepath + "/"
+		err = os.MkdirAll("assets/"+uploadDir, os.ModePerm)
+		PanicIfError(err)
+
+		filename = uploadDir + file.Filename
 		err := c.SaveFile(file, "assets"+filename)
 		PanicIfError(err)
 	}

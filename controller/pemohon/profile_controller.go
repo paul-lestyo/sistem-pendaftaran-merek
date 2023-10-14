@@ -8,7 +8,6 @@ import (
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/database"
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/helper"
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/model"
-	"path/filepath"
 )
 
 var validate = validator.New()
@@ -32,18 +31,7 @@ func ProfilePemohon(c *fiber.Ctx) error {
 }
 
 func UpdatePemohon(c *fiber.Ctx) error {
-	img := helper.FileInput{}
-	file, err := c.FormFile("profile_image")
-	if err == nil && file.Size > 0 {
-		img = helper.FileInput{
-			Path:        filepath.Dir(file.Filename),
-			Filename:    filepath.Base(file.Filename),
-			Ext:         filepath.Ext(file.Filename),
-			ContentType: file.Header.Get("Content-Type"),
-			Size:        file.Size,
-		}
-	}
-
+	img, updateImg := helper.CheckInputFile(c, "profile_image")
 	updateRegisterUser := UpdateProfileUser{
 		Name:  c.FormValue("name"),
 		Image: img,
@@ -58,33 +46,20 @@ func UpdatePemohon(c *fiber.Ctx) error {
 	}
 
 	var user model.User
-	err = database.DB.First(&user, "id = ?", helper.GetSession(c, "LoggedIn")).Error
+	err := database.DB.First(&user, "id = ?", helper.GetSession(c, "LoggedIn")).Error
 	helper.PanicIfError(err)
 
 	user.Name = c.FormValue("name")
-	if newImage := UploadImageProfile(c); newImage != "" {
-		user.ImageUrl = newImage
+	if updateImg {
+		if path, ok := helper.UploadFile(c, "profile_image", "profile/user"); ok {
+			user.ImageUrl = path
+		}
 	}
 	err = database.DB.Save(&user).Error
 	helper.PanicIfError(err)
 
 	helper.SetSession(c, "successMessage", "Profile Berhasil Diubah!")
 	return c.Redirect("/pemohon/profile/user")
-}
-
-func UploadImageProfile(c *fiber.Ctx) string {
-	filename := ""
-	file, err := c.FormFile("profile_image")
-	if err != nil {
-		return filename
-	}
-
-	if file.Size != 0 {
-		filename = "/uploads/profile/" + file.Filename
-		err := c.SaveFile(file, "assets"+filename)
-		helper.PanicIfError(err)
-	}
-	return filename
 }
 
 type MessageProfileUser struct {
