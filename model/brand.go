@@ -8,10 +8,13 @@ type Brand struct {
 	Business    Business
 	BrandName   string `gorm:"not null"`
 	DescBrand   string `gorm:"not null"`
+	BrandLogo   string `gorm:"not null"`
+	Status      string `gorm:"not null;type:enum('OK', 'Perbaiki', 'Tolak')"`
+	Note        string `gorm:"not null"`
 	CreatedByID uuid.UUID
-	CreatedBy   User `gorm:"foreignKey:CreatedByID"`
+	CreatedBy   *User `gorm:"foreignKey:CreatedByID"`
 	UpdatedByID uuid.UUID
-	UpdatedBy   User `gorm:"foreignKey:UpdatedByID"`
+	UpdatedBy   *User `gorm:"foreignKey:UpdatedByID"`
 }
 
 type Brands struct {

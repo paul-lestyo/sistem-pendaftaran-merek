@@ -15,6 +15,7 @@ type Business struct {
 	OwnerName         string `gorm:"not null"`
 	UMKCertificateUrl string `gorm:"not null"`
 	SignatureUrl      string `gorm:"not null"`
+	Brands            []Brand
 }
 
 type Businesses struct {

@@ -32,6 +32,11 @@ func SetupRoutes(app *fiber.App) {
 	pemohonProfile.Get("business", pemohon.ProfileBusiness)
 	pemohonProfile.Post("business", pemohon.UpdateBusiness)
 
+	pemohonBrand := pemohonGroup.Group("brand") // tambahin middleware cek data bisnis sudah dilengkapi
+	pemohonBrand.Get("/", pemohon.ListBrand)
+	pemohonBrand.Get("/add", pemohon.AddBrand)
+	pemohonBrand.Get("/edit/:brandId", pemohon.EditBrand) // tambahin middleware cek id edit = createdBy
+
 	user := app.Group("/user")
 	user.Get("/", controller.GetAllUsers)
 	//user.Get("/create", controller.CreateUser)

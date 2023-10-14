@@ -17,6 +17,11 @@ var Store = session.New()
 func main() {
 	database.Connect()
 
+	//metrics
+	//NewHamming(),NewLevenshtein(), NewJaro(),NewJaroWinkler(), etc
+	//similarity := strutil.Similarity("stackoverflow", "stackoverflw", metrics.NewLevenshtein())
+	//fmt.Printf("hoho:%.2f\n", similarity) // Output: 0.75
+
 	engine := html.New("./views", ".gohtml")
 	engine.Reload(true)
 	engine.Debug(true)

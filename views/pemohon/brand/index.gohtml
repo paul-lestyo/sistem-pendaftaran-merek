@@ -1,0 +1,11 @@
+<div class="content">
+    <h2>List Brand</h2>
+    <p>Halaman List Brand terdaftar di sistem.</p>
+    <a href="/pemohon/brand/add">Ajukan Permohonan Merek</a>
+
+    <ul>
+        {{range .Brands}}
+            <li>{{.ID}} - {{.BrandName}} - {{.DescBrand}} | <a href="/pemohon/brand/edit/{{.ID}}">Edit</a></li>
+        {{end}}
+    </ul>
+</div>

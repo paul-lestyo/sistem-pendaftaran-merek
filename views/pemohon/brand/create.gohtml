@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Permohonan Merek</title>
+</head>
+<h1>Permohonan Merek</h1>
+{{if .message}}
+    {{.message}}
+{{end}}
+<form method="POST" enctype="multipart/form-data">
+    <label for="name">Nama Merek: </label>
+    <input type="text" name="brand_name"> <br>
+    {{ with .Errors.BrandName }}
+        <div class="alert alert-danger">
+            {{.}}
+        </div>
+    {{ end }}
+
+    <label for="name">Deskripsi Merek: </label>
+    <textarea name="desc_brand" cols="100" rows="10"></textarea> <br>
+    {{ with .Errors.DescBrand }}
+        <div class="alert alert-danger">
+            {{.}}
+        </div>
+    {{ end }}
+
+
+    <label for="signature_url">Logo Merek: </label>
+    <input type="file" name="brand_logo" accept="image/*">
+    <small>(png/jpg)</small>
+    {{ with .Errors.BrandLogo }}
+        <div class="alert alert-danger">
+            {{.}}
+        </div>
+    {{ end }}
+
+    <br> <br>
+    <input type="submit" value="Daftarkan Merek"/>
+</form>
+</body>
+</html>
