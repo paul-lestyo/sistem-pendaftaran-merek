@@ -13,7 +13,7 @@ type User struct {
 	ImageUrl string    `gorm:"type:varchar(255);not null"`
 	RoleID   uuid.UUID
 	Role     Role
-	Business BusinessResponse
+	Business *Business
 }
 
 type Users struct {

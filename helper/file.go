@@ -33,9 +33,9 @@ func UploadFile(c *fiber.Ctx, inputFileName string, filepath string) (string, bo
 	}
 
 	if file.Size != 0 {
-		filename = filepath + "/" + file.Filename
+		filename = "/uploads/" + filepath + "/" + file.Filename
 		fmt.Println("hoho: ", filename)
-		err := c.SaveFile(file, "assets/uploads/"+filename)
+		err := c.SaveFile(file, "assets"+filename)
 		PanicIfError(err)
 	}
 	return filename, true

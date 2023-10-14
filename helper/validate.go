@@ -24,7 +24,7 @@ type FileInput struct {
 	Size        int64
 }
 
-var validate = validator.New()
+var validate = validator.New(validator.WithRequiredStructEnabled())
 var english = en.New()
 var uni = ut.New(english, english)
 var trans, _ = uni.GetTranslator("en")

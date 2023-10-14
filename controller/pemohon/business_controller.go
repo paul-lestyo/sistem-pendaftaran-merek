@@ -1,7 +1,6 @@
 package pemohon
 
 import (
-	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/mitchellh/mapstructure"
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/database"
@@ -13,8 +12,9 @@ type UpdateBusinessVal struct {
 	BusinessName    string           `validate:"required,min=5,max=50" name:"Nama Bisnis"`
 	BusinessAddress string           `validate:"required,min=5,max=50" name:"Alamat Bisnis"`
 	OwnerName       string           `validate:"required,min=5,max=50" name:"Nama Owner"`
+	BusinessLogo    helper.FileInput `validate:"required,image_upload" name:"Logo Bisnis"`
 	UMKCertificate  helper.FileInput `validate:"omitempty,image_upload" name:"Surat Keterangan UMK"`
-	Signature       helper.FileInput `validate:"omitempty,image_upload" name:"Tanda Tangan"`
+	Signature       helper.FileInput `validate:"required,image_upload" name:"Tanda Tangan"`
 }
 
 func ProfileBusiness(c *fiber.Ctx) error {
@@ -34,11 +34,13 @@ func ProfileBusiness(c *fiber.Ctx) error {
 func UpdateBusiness(c *fiber.Ctx) error {
 	imgCertificate, updateImgCertificate := helper.CheckInputFile(c, "umk_certificate_url")
 	imgSignature, updateImgSignature := helper.CheckInputFile(c, "signature_url")
+	imgLogo, updateImgLogo := helper.CheckInputFile(c, "business_logo")
 
 	updateBusinessVal := UpdateBusinessVal{
 		BusinessName:    c.FormValue("business_name"),
 		BusinessAddress: c.FormValue("business_address"),
 		OwnerName:       c.FormValue("owner_name"),
+		BusinessLogo:    imgLogo,
 		UMKCertificate:  imgCertificate,
 		Signature:       imgSignature,
 	}
@@ -58,17 +60,21 @@ func UpdateBusiness(c *fiber.Ctx) error {
 	business.BusinessName = c.FormValue("business_name")
 	business.BusinessAddress = c.FormValue("business_address")
 	business.OwnerName = c.FormValue("owner_name")
-	fmt.Println("hoho:", updateImgCertificate)
+	if updateImgLogo {
+		if pathLogo, ok := helper.UploadFile(c, "business_logo", "profile/business"); ok {
+			business.BusinessLogo = pathLogo
+		}
+	}
+
 	if updateImgCertificate {
-		fmt.Println("hoho: done")
-		if path, ok := helper.UploadFile(c, "umk_certificate_url", "profile/business"); ok {
-			business.UMKCertificateUrl = path
+		if pathCertificate, ok := helper.UploadFile(c, "umk_certificate_url", "profile/business"); ok {
+			business.UMKCertificateUrl = pathCertificate
 		}
 	}
 
 	if updateImgSignature {
-		if path, ok := helper.UploadFile(c, "signature_url", "profile/business"); ok {
-			business.UMKCertificateUrl = path
+		if pathSignature, ok := helper.UploadFile(c, "signature_url", "profile/business"); ok {
+			business.SignatureUrl = pathSignature
 		}
 	}
 
@@ -83,6 +89,7 @@ type MessageBusiness struct {
 	BusinessName    string
 	BusinessAddress string
 	OwnerName       string
+	BusinessLogo    string
 	UMKCertificate  string
 	Signature       string
 }

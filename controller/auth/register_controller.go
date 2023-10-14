@@ -51,9 +51,11 @@ func CheckRegister(c *fiber.Ctx) error {
 		Password: hashedPassword,
 		ImageUrl: c.FormValue("image_url"),
 		RoleID:   ResultIDRole.ID,
+		Business: &model.Business{},
 	}
 
 	result := database.DB.Create(&user)
+
 	if result != nil {
 		return c.Redirect("/login")
 	}

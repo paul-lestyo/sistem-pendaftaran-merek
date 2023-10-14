@@ -33,9 +33,28 @@
         </div>
     {{ end }}
 
+    <label for="signature_url">Logo Usaha: </label>
+    <div>
+        {{if .Business.BusinessLogo }}
+            <img width="100" src="{{.Business.BusinessLogo}}" alt="">
+        {{end}}
+    </div>
+    <input type="file" name="business_logo" accept="image/*">
+    <small>(png/jpg)</small>
+    {{ with .Errors.BusinessLogo }}
+        <div class="alert alert-danger">
+            {{.}}
+        </div>
+    {{ end }}
+
     <label for="umk_certificate_url">Surat keterangan UMK: </label>
+    <div>
+        {{if .Business.UMKCertificateUrl }}
+            <img width="100" src="{{.Business.UMKCertificateUrl}}" alt="">
+        {{end}}
+    </div>
     <input type="file" name="umk_certificate_url" accept="image/*">
-    <small>(optional, pdf/jpg)</small>
+    <small>(optional, png/jpg)</small>
     {{ with .Errors.UMKCertificate }}
         <div class="alert alert-danger">
             {{.}}
@@ -43,8 +62,13 @@
     {{ end }}
 
     <label for="signature_url">Tanda Tangan: </label>
+    <div>
+        {{if .Business.SignatureUrl }}
+            <img width="100" src="{{.Business.SignatureUrl}}" alt="">
+        {{end}}
+    </div>
     <input type="file" name="signature_url" accept="image/*">
-    <small>(optional, pdf/jpg)</small>
+    <small>(png/jpg)</small>
     {{ with .Errors.Signature }}
         <div class="alert alert-danger">
             {{.}}
