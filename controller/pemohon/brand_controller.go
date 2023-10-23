@@ -7,6 +7,8 @@ import (
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/database"
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/helper"
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/model"
+	"os"
+	"path"
 )
 
 func ListBrand(c *fiber.Ctx) error {
@@ -144,8 +146,9 @@ func UpdateBrand(c *fiber.Ctx) error {
 	brand.DescBrand = c.FormValue("desc_brand")
 
 	if uploadImg {
-		if path, ok := helper.UploadFile(c, "brand_logo", "brand"); ok {
-			brand.BrandLogo = path
+		if pathFile, ok := helper.UploadFile(c, "brand_logo", "brand"); ok {
+			_ = os.Remove(path.Join("assets", brand.BrandLogo))
+			brand.BrandLogo = pathFile
 		}
 	}
 
@@ -167,6 +170,7 @@ func DeleteBrand(c *fiber.Ctx) error {
 		return c.SendStatus(404)
 	}
 
+	_ = os.Remove(path.Join("assets", brand.BrandLogo))
 	database.DB.Delete(&brand)
 	return c.Redirect("/pemohon/brand/")
 }
