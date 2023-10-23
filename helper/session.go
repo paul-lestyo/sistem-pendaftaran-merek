@@ -35,3 +35,11 @@ func DeleteSession(c *fiber.Ctx, key string) {
 	err = sess.Save()
 	PanicIfError(err)
 }
+
+func DestroySession(c *fiber.Ctx) {
+	sess, err := sessionStore.Get(c)
+	PanicIfError(err)
+
+	err = sess.Destroy()
+	PanicIfError(err)
+}

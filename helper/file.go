@@ -3,7 +3,9 @@ package helper
 import (
 	"github.com/gofiber/fiber/v2"
 	"os"
+	"path"
 	"path/filepath"
+	"time"
 )
 
 func CheckInputFile(c *fiber.Ctx, inputFileName string) (fileInput FileInput, ok bool) {
@@ -37,7 +39,10 @@ func UploadFile(c *fiber.Ctx, inputFileName string, filepath string) (string, bo
 		err = os.MkdirAll("assets/"+uploadDir, os.ModePerm)
 		PanicIfError(err)
 
-		filename = uploadDir + file.Filename
+		currentDate := time.Now()
+		formattedDateNow := currentDate.Format("20060102150405-")
+
+		filename = path.Join(uploadDir, formattedDateNow+file.Filename)
 		err := c.SaveFile(file, "assets"+filename)
 		PanicIfError(err)
 	}

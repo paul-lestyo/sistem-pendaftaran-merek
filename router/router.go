@@ -12,8 +12,9 @@ func SetupRoutes(app *fiber.App) {
 	AdminAuth := middleware.AuthHandler{Role: "Admin"}
 	PemohonAuth := middleware.AuthHandler{Role: "Pemohon"}
 
-	app.Get("/login", auth.Login)
-	app.Post("login", auth.CheckLogin)
+	app.Get("/", auth.Login)
+	app.Post("/", auth.CheckLogin)
+	app.Get("/logout", auth.Logout)
 	app.Get("/register", middleware.GuestMiddleware, auth.Register)
 	app.Post("/register", middleware.GuestMiddleware, auth.CheckRegister)
 
@@ -35,7 +36,10 @@ func SetupRoutes(app *fiber.App) {
 	pemohonBrand := pemohonGroup.Group("brand") // tambahin middleware cek data bisnis sudah dilengkapi
 	pemohonBrand.Get("/", pemohon.ListBrand)
 	pemohonBrand.Get("/add", pemohon.AddBrand)
-	pemohonBrand.Get("/edit/:brandId", pemohon.EditBrand) // tambahin middleware cek id edit = createdBy
+	pemohonBrand.Post("/add", pemohon.CreateBrand)
+	pemohonBrand.Get("/edit/:brandId", pemohon.EditBrand) // tambahin middleware cek id edit = createdBy // sudah tpi msih di dalam function
+	pemohonBrand.Post("/edit/:brandId", pemohon.UpdateBrand)
+	pemohonBrand.Get("/delete/:brandId", pemohon.DeleteBrand)
 
 	user := app.Group("/user")
 	user.Get("/", controller.GetAllUsers)

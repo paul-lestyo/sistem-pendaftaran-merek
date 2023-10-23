@@ -14,7 +14,7 @@ func (ah *AuthHandler) AuthMiddleware(c *fiber.Ctx) error {
 	if helper.GetSession(c, "RoleUser") == ah.Role {
 		return c.Next()
 	}
-	return c.Redirect("/login")
+	return c.Redirect("/")
 }
 
 func GuestMiddleware(c *fiber.Ctx) error {

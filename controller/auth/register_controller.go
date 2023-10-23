@@ -57,7 +57,7 @@ func CheckRegister(c *fiber.Ctx) error {
 	result := database.DB.Create(&user)
 
 	if result != nil {
-		return c.Redirect("/login")
+		return c.Redirect("/")
 	}
 	return nil
 }

@@ -40,5 +40,10 @@ func CheckLogin(c *fiber.Ctx) error {
 	}
 
 	helper.SetSession(c, "message", "Invalid email or password")
-	return c.Redirect("/login")
+	return c.Redirect("/")
+}
+
+func Logout(c *fiber.Ctx) error {
+	helper.DestroySession(c)
+	return c.Redirect("/")
 }

@@ -5,7 +5,11 @@
 
     <ul>
         {{range .Brands}}
-            <li>{{.ID}} - {{.BrandName}} - {{.DescBrand}} | <a href="/pemohon/brand/edit/{{.ID}}">Edit</a></li>
+            <li>
+                {{.ID}} - {{.BrandName}} - {{.DescBrand}} |
+                <a href="/pemohon/brand/edit/{{.ID}}">Edit</a> |
+                <a href="/pemohon/brand/delete/{{.ID}}">Delete</a>
+            </li>
         {{end}}
     </ul>
 </div>

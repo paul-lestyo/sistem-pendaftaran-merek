@@ -3,6 +3,7 @@ package pemohon
 import (
 	"fmt"
 	"github.com/gofiber/fiber/v2"
+	"github.com/mitchellh/mapstructure"
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/database"
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/helper"
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/model"
@@ -14,7 +15,6 @@ func ListBrand(c *fiber.Ctx) error {
 	var business model.Business
 
 	err := database.DB.Preload("Brands").First(&business, "user_id = ?", helper.GetSession(c, "LoggedIn")).Error
-	fmt.Println(business.Brands)
 	helper.PanicIfError(err)
 
 	return c.Render("pemohon/brand/index", fiber.Map{
@@ -38,6 +38,57 @@ func AddBrand(c *fiber.Ctx) error {
 	}, "layouts/pemohon")
 }
 
+type CreateUpdateBrandUser struct {
+	BrandName string           `validate:"required,min=5,max=50"`
+	DescBrand string           `validate:"required,min=5,max=50"`
+	BrandLogo helper.FileInput `validate:"required,image_upload"`
+}
+
+func CreateBrand(c *fiber.Ctx) error {
+	img, uploadImg := helper.CheckInputFile(c, "brand_logo")
+	createBrandUser := CreateUpdateBrandUser{
+		BrandName: c.FormValue("brand_name"),
+		DescBrand: c.FormValue("desc_brand"),
+		BrandLogo: img,
+	}
+
+	createBrandValidator := &helper.Validator{
+		Validator: validate,
+	}
+
+	if errs := createBrandValidator.Validate(createBrandUser); len(errs) > 0 {
+		return showCreateBrandErrors(c, createBrandUser, errs)
+	}
+
+	var business model.Business
+	err := database.DB.First(&business, "user_id = ?", helper.GetSession(c, "LoggedIn")).Error
+	helper.PanicIfError(err)
+
+	pathImg := ""
+	if uploadImg {
+		if path, ok := helper.UploadFile(c, "brand_logo", "brand"); ok {
+			pathImg = path
+		}
+	}
+
+	brand := model.Brand{
+		BusinessID:  business.ID,
+		BrandName:   c.FormValue("brand_name"),
+		DescBrand:   c.FormValue("desc_brand"),
+		BrandLogo:   pathImg,
+		Status:      "Menunggu",
+		Note:        "",
+		CreatedByID: business.UserID,
+		UpdatedByID: business.UserID,
+	}
+
+	err = database.DB.Create(&brand).Error
+	helper.PanicIfError(err)
+
+	helper.SetSession(c, "successMessage", "Permohonan Brand Berhasil Ditambahkan!")
+	return c.Redirect("/pemohon/brand/")
+}
+
 func EditBrand(c *fiber.Ctx) error {
 	message := helper.GetSession(c, "alertMessage")
 	helper.DeleteSession(c, "alertMessage")
@@ -46,11 +97,105 @@ func EditBrand(c *fiber.Ctx) error {
 	var brand model.Brand
 
 	err := database.DB.First(&brand, "id = ?", id).Error
-	fmt.Println(brand)
 	helper.PanicIfError(err)
 
+	if brand.CreatedByID.String() == helper.GetSession(c, "LoggedIn").(string) {
+		return c.Render("pemohon/brand/edit", fiber.Map{
+			"Brand":   brand,
+			"message": message,
+		}, "layouts/pemohon")
+	} else {
+		return c.SendStatus(404)
+	}
+
+}
+
+func UpdateBrand(c *fiber.Ctx) error {
+	id := c.Params("brandId")
+	var brand model.Brand
+
+	err := database.DB.First(&brand, "id = ?", id).Error
+	helper.PanicIfError(err)
+
+	if brand.CreatedByID.String() != helper.GetSession(c, "LoggedIn").(string) {
+		return c.SendStatus(404)
+	}
+
+	img, uploadImg := helper.CheckInputFile(c, "brand_logo")
+	updateBrandUser := CreateUpdateBrandUser{
+		BrandName: c.FormValue("brand_name"),
+		DescBrand: c.FormValue("desc_brand"),
+		BrandLogo: img,
+	}
+
+	updateBrandValidator := &helper.Validator{
+		Validator: validate,
+	}
+
+	if errs := updateBrandValidator.Validate(updateBrandUser); len(errs) > 0 {
+		return showUpdateBrandErrors(c, brand, updateBrandUser, errs)
+	}
+
+	var business model.Business
+	err = database.DB.First(&business, "user_id = ?", helper.GetSession(c, "LoggedIn")).Error
+	helper.PanicIfError(err)
+
+	brand.BrandName = c.FormValue("brand_name")
+	brand.DescBrand = c.FormValue("desc_brand")
+
+	if uploadImg {
+		if path, ok := helper.UploadFile(c, "brand_logo", "brand"); ok {
+			brand.BrandLogo = path
+		}
+	}
+
+	err = database.DB.Save(&brand).Error
+	helper.PanicIfError(err)
+
+	helper.SetSession(c, "successMessage", "Permohonan Brand Berhasil Diedit!")
+	return c.Redirect("/pemohon/brand/")
+}
+
+func DeleteBrand(c *fiber.Ctx) error {
+	id := c.Params("brandId")
+	var brand model.Brand
+
+	err := database.DB.First(&brand, "id = ?", id).Error
+	helper.PanicIfError(err)
+
+	if brand.CreatedByID.String() != helper.GetSession(c, "LoggedIn").(string) {
+		return c.SendStatus(404)
+	}
+
+	database.DB.Delete(&brand)
+	return c.Redirect("/pemohon/brand/")
+}
+
+type MessageCreateUpdateBrand struct {
+	BrandName string
+	DescBrand string
+	BrandLogo string
+}
+
+func showCreateBrandErrors(c *fiber.Ctx, oldInput CreateUpdateBrandUser, errs map[string]string) error {
+	var errsStruct = MessageCreateUpdateBrand{}
+	if err := mapstructure.Decode(errs, &errsStruct); err != nil {
+		panic(err)
+	}
+	return c.Render("pemohon/brand/create", fiber.Map{
+		"oldInput": oldInput,
+		"Errors":   errsStruct,
+	}, "layouts/pemohon")
+}
+
+func showUpdateBrandErrors(c *fiber.Ctx, brand model.Brand, oldInput CreateUpdateBrandUser, errs map[string]string) error {
+	var errsStruct = MessageCreateUpdateBrand{}
+	if err := mapstructure.Decode(errs, &errsStruct); err != nil {
+		panic(err)
+	}
 	return c.Render("pemohon/brand/edit", fiber.Map{
-		"Brand":   brand,
-		"message": message,
+		"Brand":    brand,
+		"oldInput": oldInput,
+		"Errors":   errsStruct,
 	}, "layouts/pemohon")
 }
