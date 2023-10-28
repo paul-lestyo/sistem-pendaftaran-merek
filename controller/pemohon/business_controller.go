@@ -9,12 +9,12 @@ import (
 )
 
 type UpdateBusinessVal struct {
-	BusinessName    string           `validate:"required,min=5,max=50" name:"Nama Bisnis"`
-	BusinessAddress string           `validate:"required,min=5,max=50" name:"Alamat Bisnis"`
-	OwnerName       string           `validate:"required,min=5,max=50" name:"Nama Owner"`
-	BusinessLogo    helper.FileInput `validate:"required,image_upload" name:"Logo Bisnis"`
-	UMKCertificate  helper.FileInput `validate:"omitempty,image_upload" name:"Surat Keterangan UMK"`
-	Signature       helper.FileInput `validate:"required,image_upload" name:"Tanda Tangan"`
+	BusinessName      string           `validate:"required,min=5,max=50" name:"Nama Bisnis"`
+	BusinessAddress   string           `validate:"required,min=5,max=50" name:"Alamat Bisnis"`
+	OwnerName         string           `validate:"required,min=5,max=50" name:"Nama Owner"`
+	BusinessLogo      helper.FileInput `validate:"required,image_upload" name:"Logo Bisnis"`
+	UMKCertificateUrl helper.FileInput `validate:"omitempty,image_upload" name:"Surat Keterangan UMK"`
+	SignatureUrl      helper.FileInput `validate:"required,image_upload" name:"Tanda Tangan"`
 }
 
 func ProfileBusiness(c *fiber.Ctx) error {
@@ -37,12 +37,12 @@ func UpdateBusiness(c *fiber.Ctx) error {
 	imgLogo, updateImgLogo := helper.CheckInputFile(c, "business_logo")
 
 	updateBusinessVal := UpdateBusinessVal{
-		BusinessName:    c.FormValue("business_name"),
-		BusinessAddress: c.FormValue("business_address"),
-		OwnerName:       c.FormValue("owner_name"),
-		BusinessLogo:    imgLogo,
-		UMKCertificate:  imgCertificate,
-		Signature:       imgSignature,
+		BusinessName:      c.FormValue("business_name"),
+		BusinessAddress:   c.FormValue("business_address"),
+		OwnerName:         c.FormValue("owner_name"),
+		BusinessLogo:      imgLogo,
+		UMKCertificateUrl: imgCertificate,
+		SignatureUrl:      imgSignature,
 	}
 
 	registerValidator := &helper.Validator{
@@ -81,17 +81,17 @@ func UpdateBusiness(c *fiber.Ctx) error {
 	err = database.DB.Save(&business).Error
 	helper.PanicIfError(err)
 
-	helper.SetSession(c, "successMessage", "Profile Berhasil Diubah!")
+	helper.SetSession(c, "successMessage", "Profile Bisnis Berhasil Tersimpan!")
 	return c.Redirect("/pemohon/profile/business")
 }
 
 type MessageBusiness struct {
-	BusinessName    string
-	BusinessAddress string
-	OwnerName       string
-	BusinessLogo    string
-	UMKCertificate  string
-	Signature       string
+	BusinessName      string
+	BusinessAddress   string
+	OwnerName         string
+	BusinessLogo      string
+	UMKCertificateUrl string
+	SignatureUrl      string
 }
 
 func showProfileBusinessErrors(c *fiber.Ctx, oldInput UpdateBusinessVal, errs map[string]string) error {

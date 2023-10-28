@@ -1,81 +1,170 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>User Profile</title>
-</head>
-<h1>Business Profile</h1>
-<h2>Business Profile wajib dilengkapi untuk melakukan pendaftaran merek!</h2>
-{{if .message}}
-    {{.message}}
-{{end}}
-<form method="POST" enctype="multipart/form-data">
-    <label for="name">Nama Bisnis: </label>
-    <input type="text" name="business_name" value="{{.Business.BusinessName }}"> <br>
-    {{ with .Errors.BusinessName }}
-        <div class="alert alert-danger">
-            {{.}}
+<div id="mainContent">
+    <h2>Business Profile</h2>
+    <h6>Business Profile wajib dilengkapi untuk melakukan pendaftaran merek!</h6>
+    {{if .message}}
+        <div class="alert alert-success">
+            {{.message}}
         </div>
-    {{ end }}
-
-    <label for="name">Alamat Bisnis: </label>
-    <input type="text" name="business_address" value="{{.Business.BusinessAddress }}"> <br>
-    {{ with .Errors.BusinessAddress }}
-        <div class="alert alert-danger">
-            {{.}}
+    {{end}}
+    <div class="row gap-20 masonry pos-r">
+        <div class="masonry-sizer col-md-6"></div>
+        <div class="masonry-item col-md-12">
+            <div class="bgc-white pX-20 pB-20 bd">
+                <div class="mT-30">
+                    <form method="POST" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label class="form-label" for="name">Nama Bisnis</label>
+                            <input type="text" name="business_name" class="form-control" id="name" value="{{.Business.BusinessName}}">
+                            {{ with .Errors.BusinessName }}
+                            <div class="alert alert-danger">
+                                {{.}}
+                            </div>
+                            {{ end }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="name">Alamat Bisnis</label>
+                            <input type="text" name="business_address" class="form-control" id="name" value="{{.Business.BusinessAddress}}">
+                            {{ with .Errors.BusinessAddress }}
+                                <div class="alert alert-danger">
+                                    {{.}}
+                                </div>
+                            {{ end }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="name">Nama Owner</label>
+                            <input type="text" name="owner_name" class="form-control" id="name" value="{{.Business.OwnerName}}">
+                            {{ with .Errors.OwnerName }}
+                                <div class="alert alert-danger">
+                                    {{.}}
+                                </div>
+                            {{ end }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="foto">Logo Bisnis</label> <br>
+                            {{if .Business.BusinessLogo }}
+                                <img src="{{.Business.BusinessLogo}}" alt="" class="w-20p pb-3">
+                            {{end}}
+                            <input type="file" class="form-control" id="foto" name="business_logo">
+                            <small id="emailHelp" class="text-muted">(png/jpg)</small>
+                            {{ with .Errors.BusinessLogo }}
+                                <div class="alert alert-danger">
+                                    {{.}}
+                                </div>
+                            {{ end }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="foto">Surat keterangan UMK</label> <br>
+                            {{if .Business.UMKCertificateUrl }}
+                                <img src="{{.Business.UMKCertificateUrl}}" alt="" class="w-20p pb-3">
+                            {{end}}
+                            <input type="file" class="form-control" id="foto" name="umk_certificate_url">
+                            <small id="emailHelp" class="text-muted">(optional, png/jpg)</small>
+                            {{ with .Errors.UMKCertificateUrl }}
+                                <div class="alert alert-danger">
+                                    {{.}}
+                                </div>
+                            {{ end }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="foto">Tanda Tangan</label> <br>
+                            {{if .Business.SignatureUrl }}
+                                <img src="{{.Business.SignatureUrl}}" alt="" class="w-20p pb-3">
+                            {{end}}
+                            <input type="file" class="form-control" id="foto" name="signature_url">
+                            <small id="emailHelp" class="text-muted">(png/jpg)</small>
+                            {{ with .Errors.SignatureUrl }}
+                                <div class="alert alert-danger">
+                                    {{.}}
+                                </div>
+                            {{ end }}
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-color">Simpan Perubahan</button>
+                    </form>
+                </div>
+            </div>
         </div>
-    {{ end }}
-    <label for="email">Nama Owner: </label>
-    <input type="text" name="owner_name" value="{{.Business.OwnerName}}"> <br>
-    {{ with .Errors.OwnerName }}
-        <div class="alert alert-danger">
-            {{.}}
-        </div>
-    {{ end }}
-
-    <label for="signature_url">Logo Usaha: </label>
-    <div>
-        {{if .Business.BusinessLogo }}
-            <img width="100" src="{{.Business.BusinessLogo}}" alt="">
-        {{end}}
     </div>
-    <input type="file" name="business_logo" accept="image/*">
-    <small>(png/jpg)</small>
-    {{ with .Errors.BusinessLogo }}
-        <div class="alert alert-danger">
-            {{.}}
-        </div>
-    {{ end }}
+</div>
 
-    <label for="umk_certificate_url">Surat keterangan UMK: </label>
-    <div>
-        {{if .Business.UMKCertificateUrl }}
-            <img width="100" src="{{.Business.UMKCertificateUrl}}" alt="">
-        {{end}}
-    </div>
-    <input type="file" name="umk_certificate_url" accept="image/*">
-    <small>(optional, png/jpg)</small>
-    {{ with .Errors.UMKCertificate }}
-        <div class="alert alert-danger">
-            {{.}}
-        </div>
-    {{ end }}
 
-    <label for="signature_url">Tanda Tangan: </label>
-    <div>
-        {{if .Business.SignatureUrl }}
-            <img width="100" src="{{.Business.SignatureUrl}}" alt="">
-        {{end}}
-    </div>
-    <input type="file" name="signature_url" accept="image/*">
-    <small>(png/jpg)</small>
-    {{ with .Errors.Signature }}
-        <div class="alert alert-danger">
-            {{.}}
-        </div>
-    {{ end }}
-    <br> <br>
-    <input type="submit" value="Simpan Perubahan"/>
-</form>
-</body>
-</html>
+{{/*<!DOCTYPE html>*/}}
+{{/*<html lang="en">*/}}
+{{/*<head>*/}}
+{{/*    <meta charset="UTF-8">*/}}
+{{/*    <title>User Profile</title>*/}}
+{{/*</head>*/}}
+{{/*<h1>Business Profile</h1>*/}}
+{{/*<h2>Business Profile wajib dilengkapi untuk melakukan pendaftaran merek!</h2>*/}}
+{{/*{{if .message}}*/}}
+{{/*    {{.message}}*/}}
+{{/*{{end}}*/}}
+{{/*<form method="POST" enctype="multipart/form-data">*/}}
+{{/*    <label for="name">Nama Bisnis: </label>*/}}
+{{/*    <input type="text" name="business_name" value="{{.Business.BusinessName }}"> <br>*/}}
+{{/*    {{ with .Errors.BusinessName }}*/}}
+{{/*        <div class="alert alert-danger">*/}}
+{{/*            {{.}}*/}}
+{{/*        </div>*/}}
+{{/*    {{ end }}*/}}
+
+{{/*    <label for="name">Alamat Bisnis: </label>*/}}
+{{/*    <input type="text" name="business_address" value="{{.Business.BusinessAddress }}"> <br>*/}}
+{{/*    {{ with .Errors.BusinessAddress }}*/}}
+{{/*        <div class="alert alert-danger">*/}}
+{{/*            {{.}}*/}}
+{{/*        </div>*/}}
+{{/*    {{ end }}*/}}
+{{/*    <label for="email">Nama Owner: </label>*/}}
+{{/*    <input type="text" name="owner_name" value="{{.Business.OwnerName}}"> <br>*/}}
+{{/*    {{ with .Errors.OwnerName }}*/}}
+{{/*        <div class="alert alert-danger">*/}}
+{{/*            {{.}}*/}}
+{{/*        </div>*/}}
+{{/*    {{ end }}*/}}
+
+{{/*    <label for="signature_url">Logo Usaha: </label>*/}}
+{{/*    <div>*/}}
+{{/*        {{if .Business.BusinessLogo }}*/}}
+{{/*            <img width="100" src="{{.Business.BusinessLogo}}" alt="">*/}}
+{{/*        {{end}}*/}}
+{{/*    </div>*/}}
+{{/*    <input type="file" name="business_logo" accept="image/*">*/}}
+{{/*    <small>(png/jpg)</small>*/}}
+{{/*    {{ with .Errors.BusinessLogo }}*/}}
+{{/*        <div class="alert alert-danger">*/}}
+{{/*            {{.}}*/}}
+{{/*        </div>*/}}
+{{/*    {{ end }}*/}}
+
+{{/*    <label for="umk_certificate_url">Surat keterangan UMK: </label>*/}}
+{{/*    <div>*/}}
+{{/*        {{if .Business.UMKCertificateUrl }}*/}}
+{{/*            <img width="100" src="{{.Business.UMKCertificateUrl}}" alt="">*/}}
+{{/*        {{end}}*/}}
+{{/*    </div>*/}}
+{{/*    <input type="file" name="umk_certificate_url" accept="image/*">*/}}
+{{/*    <small>(optional, png/jpg)</small>*/}}
+{{/*    {{ with .Errors.UMKCertificate }}*/}}
+{{/*        <div class="alert alert-danger">*/}}
+{{/*            {{.}}*/}}
+{{/*        </div>*/}}
+{{/*    {{ end }}*/}}
+
+{{/*    <label for="signature_url">Tanda Tangan: </label>*/}}
+{{/*    <div>*/}}
+{{/*        {{if .Business.SignatureUrl }}*/}}
+{{/*            <img width="100" src="{{.Business.SignatureUrl}}" alt="">*/}}
+{{/*        {{end}}*/}}
+{{/*    </div>*/}}
+{{/*    <input type="file" name="signature_url" accept="image/*">*/}}
+{{/*    <small>(png/jpg)</small>*/}}
+{{/*    {{ with .Errors.Signature }}*/}}
+{{/*        <div class="alert alert-danger">*/}}
+{{/*            {{.}}*/}}
+{{/*        </div>*/}}
+{{/*    {{ end }}*/}}
+{{/*    <br> <br>*/}}
+{{/*    <input type="submit" value="Simpan Perubahan"/>*/}}
+{{/*</form>*/}}
+{{/*</body>*/}}
+{{/*</html>*/}}
