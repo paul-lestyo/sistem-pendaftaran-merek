@@ -57,6 +57,7 @@ func CheckRegister(c *fiber.Ctx) error {
 	result := database.DB.Create(&user)
 
 	if result != nil {
+		helper.SetSession(c, "messageSuccess", "Berhasil mendaftarkan akun baru! Silahkan login dengan akun baru tersebut!")
 		return c.Redirect("/")
 	}
 	return nil

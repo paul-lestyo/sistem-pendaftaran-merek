@@ -1,49 +1,98 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>User Profile</title>
-</head>
-<h1>User Profile</h1>
-{{if .message}}
-  {{.message}}
-{{end}}
-<form method="POST" enctype="multipart/form-data">
-  <div class="form-group">
-    <div class="label-and-profile">
-      <label for="profile-image">Foto Diri:</label>
-      <div class="profile-image">
+<div id="mainContent">
+  {{if .message}}
+    <div class="alert alert-success">
+      {{.message}}
+    </div>
+  {{end}}
+  <div class="row gap-20 masonry pos-r">
+    <div class="masonry-sizer col-md-6"></div>
+    <div class="masonry-item col-md-6">
+      <div class="bgc-white p-20 bd layers">
         {{if .User.ImageUrl }}
-          <img src="{{.User.ImageUrl}}" alt="Profile Image">
+          <img src="{{.User.ImageUrl}}" alt="Profile Image" class="w-25 bdrs-10em">
         {{else}}
-          <img src="/img/default-profile.png" alt="Profile Image">
+          <img src="/img/default-profile.png" alt="Profile Image" class="w-25 bdrs-10em">
         {{end}}
+        <h2 class="pT-20 c-grey-900">{{.User.Name}}</h2>
+        <h6>Pemohon</h6>
 
       </div>
     </div>
-    <div class="input-file">
-      <input type="file" id="profile-image" name="profile_image" accept="image/*">
-      <small>Pilih foto baru</small>
-      {{ with .Errors.Image }}
-        <div class="alert alert-danger">
-          {{.}}
+    <div class="masonry-item col-md-6">
+      <div class="bgc-white pX-20 pB-20 bd">
+        <div class="mT-30">
+          <form method="POST" enctype="multipart/form-data">
+            <div class="mb-3">
+              <label class="form-label" for="name">Name</label>
+              <input type="text" name="name" class="form-control" id="name" value="{{.User.Name}}">
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="exampleInputEmail1">Email</label>
+              <input type="email" class="form-control" id="exampleInputEmail1" value="{{.User.Email}}" disabled>
+              <small id="emailHelp" class="text-muted">Email digunakan untuk login dan tidak bisa diubah.</small>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="foto">Foto Baru</label>
+              <input type="file" class="form-control" id="foto" name="profile_image">
+              <small id="emailHelp" class="text-muted">Kosongkan jika tidak ingin mengubah foto profil.</small>
+            </div>
+            <button type="submit" class="btn btn-primary btn-color">Simpan Perubahan</button>
+          </form>
         </div>
-      {{ end }}
+      </div>
     </div>
-
   </div>
+</div>
 
-  <label for="name">Name: </label>
-  <input type="text" name="name" value="{{.User.Name}}"> <br>
-  {{ with .Errors.Name }}
-    <div class="alert alert-danger">
-      {{.}}
-    </div>
-  {{ end }}
-  <label for="email">Email: </label>
-  <input type="text" disabled value="{{.User.Email}}"> <br>
 
-  <input type="submit" value="Simpan Perubahan"/>
-</form>
-</body>
-</html>
+
+{{/*<!DOCTYPE html>*/}}
+{{/*<html lang="en">*/}}
+{{/*<head>*/}}
+{{/*  <meta charset="UTF-8">*/}}
+{{/*  <title>User Profile</title>*/}}
+{{/*</head>*/}}
+{{/*<h1>User Profile</h1>*/}}
+{{/*{{if .message}}*/}}
+{{/*  {{.message}}*/}}
+{{/*{{end}}*/}}
+{{/*<form method="POST" enctype="multipart/form-data">*/}}
+
+{{/*  <div class="form-group">*/}}
+{{/*    <div class="label-and-profile">*/}}
+{{/*      <label for="profile-image">Foto Diri:</label>*/}}
+{{/*      <div class="peer mR-20">*/}}
+{{/*        {{if .User.ImageUrl }}*/}}
+{{/*          <img src="{{.User.ImageUrl}}" alt="Profile Image" class="w-3r h-3r bdrs-50p">*/}}
+{{/*        {{else}}*/}}
+{{/*          <img src="/img/default-profile.png" alt="Profile Image" class="w-3r h-3r bdrs-50p">*/}}
+{{/*        {{end}}*/}}
+
+{{/*      </div>*/}}
+{{/*    </div>*/}}
+{{/*    <div class="input-file">*/}}
+{{/*      <input type="file" id="profile-image" name="profile_image" accept="image/*">*/}}
+{{/*      <small>Pilih foto baru</small>*/}}
+{{/*      {{ with .Errors.Image }}*/}}
+{{/*        <div class="alert alert-danger">*/}}
+{{/*          {{.}}*/}}
+{{/*        </div>*/}}
+{{/*      {{ end }}*/}}
+{{/*    </div>*/}}
+
+{{/*  </div>*/}}
+
+{{/*  <label for="name">Name: </label>*/}}
+{{/*  <input type="text" name="name" value="{{.User.Name}}"> <br>*/}}
+{{/*  {{ with .Errors.Name }}*/}}
+{{/*    <div class="alert alert-danger">*/}}
+{{/*      {{.}}*/}}
+{{/*    </div>*/}}
+{{/*  {{ end }}*/}}
+{{/*  <label for="email">Email: </label>*/}}
+{{/*  <input type="text" disabled value="{{.User.Email}}"> <br>*/}}
+
+{{/*  <input type="submit" value="Simpan Perubahan"/>*/}}
+{{/*</form>*/}}
+{{/*</body>*/}}
+{{/*</html>*/}}

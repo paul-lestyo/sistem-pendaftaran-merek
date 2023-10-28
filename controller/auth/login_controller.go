@@ -16,9 +16,12 @@ var validate = validator.New()
 func Login(c *fiber.Ctx) error {
 	message := helper.GetSession(c, "message")
 	helper.DeleteSession(c, "message")
+	messageSuccess := helper.GetSession(c, "messageSuccess")
+	helper.DeleteSession(c, "messageSuccess")
 
 	return c.Render("auth/login", fiber.Map{
-		"message": message,
+		"message":        message,
+		"messageSuccess": messageSuccess,
 	})
 }
 

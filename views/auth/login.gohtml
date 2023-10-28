@@ -1,72 +1,117 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Halaman Login</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+    <title>Sign In</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+        #loader {
+            transition: all 0.3s ease-in-out;
+            opacity: 1;
+            visibility: visible;
+            position: fixed;
             height: 100vh;
-            margin: 0;
+            width: 100%;
+            background: #fff;
+            z-index: 90000;
         }
 
-        h1 {
-            color: #333;
+        #loader.fadeOut {
+            opacity: 0;
+            visibility: hidden;
         }
 
-        form {
-            width: 300px;
-            margin-top: 20px;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            background-color: #fff;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        input[type="email"],
-        input[type="password"] {
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-
-        input[type="submit"] {
+        .spinner {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            top: calc(50% - 20px);
+            left: calc(50% - 20px);
             background-color: #333;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
+            border-radius: 100%;
+            -webkit-animation: sk-scaleout 1.0s infinite ease-in-out;
+            animation: sk-scaleout 1.0s infinite ease-in-out;
+        }
+
+        @-webkit-keyframes sk-scaleout {
+            0% { -webkit-transform: scale(0) }
+            100% {
+                -webkit-transform: scale(1.0);
+                opacity: 0;
+            }
+        }
+
+        @keyframes sk-scaleout {
+            0% {
+                -webkit-transform: scale(0);
+                transform: scale(0);
+            } 100% {
+                  -webkit-transform: scale(1.0);
+                  transform: scale(1.0);
+                  opacity: 0;
+              }
         }
     </style>
-</head>
-<body>
-    <h1>Halaman Login</h1>
-    {{if .message}}
-        {{.message}}
-    {{end}}
-    <form method="POST">
-        <label for="email">Email :</label>
-        <input type="email" name="email" autofocus> <br>
-        <label for="password">Password :</label>
-        <input type="password" name="password"> <br>
-        <input type="submit" value="Login">
-    </form>
+    <script defer="defer" src="/main.js"></script><link href="/style.css" rel="stylesheet"></head>
+<body class="app">
+<div id="loader">
+    <div class="spinner"></div>
+</div>
+
+<script>
+    window.addEventListener('load', function load() {
+        const loader = document.getElementById('loader');
+        setTimeout(function() {
+            loader.classList.add('fadeOut');
+        }, 300);
+    });
+</script>
+<div class="peers ai-s fxw-nw h-100vh">
+    <div class="d-n@sm- peer peer-greed h-100 pos-r bgr-n bgpX-c bgpY-c bgsz-cv" style='background-image: url("/img/bg.jpg")'>
+        <div class="pos-a centerXY">
+            <div class="bgc-white bdrs-50p pos-r" style="width: 120px; height: 120px;">
+                <img class="pos-a centerXY" src="/img/logo.png" alt="">
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-4 peer pX-40 pY-80 h-100 bgc-white scrollable pos-r" style="min-width: 320px;">
+        <h4 class="fw-300 c-grey-900 mB-40">Login</h4>
+        {{if .message}}
+            <div class="alert alert-danger">
+                {{.message}}
+            </div>
+        {{end}}
+        {{if .messageSuccess}}
+            <div class="alert alert-success">
+                {{.messageSuccess}}
+            </div>
+        {{end}}
+        <form method="POST">
+            <div class="mb-3">
+                <label class="text-normal text-dark form-label">Email</label>
+                <input type="email" class="form-control" placeholder="example@example.com" name="email" autofocus>
+            </div>
+            <div class="mb-3">
+                <label class="text-normal text-dark form-label">Password</label>
+                <input type="password" class="form-control" placeholder="Password" name="password">
+            </div>
+            <div class="">
+                <div class="peers ai-c jc-sb fxw-nw">
+                    <div class="peer">
+                        <div class="checkbox checkbox-circle checkbox-info peers ai-c">
+                            <input type="checkbox" id="inputCall1" name="inputCheckboxesCall" class="peer">
+                            <label for="inputCall1" class="peers peer-greed js-sb ai-c form-label">
+                                <span class="peer peer-greed">Remember Me</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="peer">
+                        <button class="btn btn-primary btn-color">Login</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 </body>
 </html>

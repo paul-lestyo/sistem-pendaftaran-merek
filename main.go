@@ -7,7 +7,9 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/session"
 	"github.com/gofiber/template/html/v2"
+	"github.com/google/uuid"
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/database"
+	"github.com/paul-lestyo/sistem-pendaftaran-merek/model"
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/router"
 )
 
@@ -21,6 +23,8 @@ func main() {
 	//NewHamming(),NewLevenshtein(), NewJaro(),NewJaroWinkler(), etc
 	//similarity := strutil.Similarity("stackoverflow", "stackoverflw", metrics.NewLevenshtein())
 	//fmt.Printf("hoho:%.2f\n", similarity) // Output: 0.75
+
+	seedRole()
 
 	engine := html.New("./views", ".gohtml")
 	engine.Reload(true)
@@ -39,4 +43,16 @@ func main() {
 	})
 
 	app.Listen(":8080")
+}
+
+var ResultIDRole struct {
+	ID uuid.UUID
+}
+
+func seedRole() {
+	err := database.DB.Table("roles").Select("id").Where("name = ?", "Pemohon").First(&ResultIDRole).Error
+	if err != nil {
+		database.DB.Create(&model.Role{Name: "Admin"})
+		database.DB.Create(&model.Role{Name: "Pemohon"})
+	}
 }
