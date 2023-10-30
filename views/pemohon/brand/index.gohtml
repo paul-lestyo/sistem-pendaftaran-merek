@@ -21,8 +21,8 @@
                 <td>{{.BrandName}}</td>
                 <td>{{.DescBrand}}</td>
                 <td>
+                    <a href="/pemohon/brand/detail/{{.ID}}"><button type="button" class="btn cur-p btn-info btn-color">Detail</button></a>
                     <a href="/pemohon/brand/edit/{{.ID}}"><button type="button" class="btn cur-p btn-secondary btn-color">Edit</button></a>
-{{/*                    <a href="/pemohon/brand/delete/{{.ID}}"><button type="button" class="btn cur-p btn-danger btn-color">Delete</button></a>*/}}
                     <button type="button" class="btn cur-p btn-danger btn-color" data-bs-toggle="modal" data-bs-target="#exampleModal{{$index}}">Delete</button>
                 </td>
             </tr>

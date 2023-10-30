@@ -26,6 +26,7 @@ func ProfileBusiness(c *fiber.Ctx) error {
 	helper.PanicIfError(err)
 
 	return c.Render("pemohon/profile/business", fiber.Map{
+		"User":     user,
 		"Business": user.Business,
 		"message":  message,
 	}, "layouts/pemohon")
@@ -96,13 +97,18 @@ type MessageBusiness struct {
 
 func showProfileBusinessErrors(c *fiber.Ctx, oldInput UpdateBusinessVal, errs map[string]string) error {
 	var business model.Business
-	err := database.DB.First(&business, "user_id = ?", helper.GetSession(c, "LoggedIn")).Error
+	var user model.User
+
+	err := database.DB.First(&user, "id = ?", helper.GetSession(c, "LoggedIn")).Error
+	helper.PanicIfError(err)
+	err = database.DB.First(&business, "user_id = ?", helper.GetSession(c, "LoggedIn")).Error
 	helper.PanicIfError(err)
 	var errsStruct = MessageBusiness{}
 	if err := mapstructure.Decode(errs, &errsStruct); err != nil {
 		panic(err)
 	}
 	return c.Render("pemohon/profile/business", fiber.Map{
+		"User":     user,
 		"Business": business,
 		"oldInput": oldInput,
 		"Errors":   errsStruct,

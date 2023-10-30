@@ -37,6 +37,7 @@ func SetupRoutes(app *fiber.App) {
 	pemohonBrand.Get("/", pemohon.ListBrand)
 	pemohonBrand.Get("/add", pemohon.AddBrand)
 	pemohonBrand.Post("/add", pemohon.CreateBrand)
+	pemohonBrand.Get("/detail/:brandId", pemohon.DetailBrand)
 	pemohonBrand.Get("/edit/:brandId", pemohon.EditBrand) // tambahin middleware cek id edit = createdBy // sudah tpi msih di dalam function
 	pemohonBrand.Post("/edit/:brandId", pemohon.UpdateBrand)
 	pemohonBrand.Get("/delete/:brandId", pemohon.DeleteBrand)
