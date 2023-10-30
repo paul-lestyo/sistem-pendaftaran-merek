@@ -29,6 +29,9 @@ func main() {
 	engine := html.New("./views", ".gohtml")
 	engine.Reload(true)
 	engine.Debug(true)
+	engine.AddFunc("increment", func(num int) int {
+		return num + 1
+	})
 
 	app := fiber.New(fiber.Config{
 		Views: engine,

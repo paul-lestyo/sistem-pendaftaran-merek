@@ -1,47 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Permohonan Merek</title>
-</head>
-<h1>Permohonan Merek</h1>
-{{if .message}}
-    {{.message}}
-{{end}}
-<form method="POST" enctype="multipart/form-data">
-    <label for="name">Nama Merek: </label>
-    <input type="text" name="brand_name" value="{{.Brand.BrandName}}"> <br>
-    {{ with .Errors.BrandName }}
-        <div class="alert alert-danger">
-            {{.}}
+<div id="mainContent">
+    <h2>Edit Permohonan Merek</h2>
+    {{if .message}}
+        <div class="alert alert-success">
+            {{.message}}
         </div>
-    {{ end }}
-
-    <label for="name">Deskripsi Merek: </label>
-    <textarea name="desc_brand" cols="100" rows="10">{{.Brand.DescBrand}}</textarea> <br>
-    {{ with .Errors.DescBrand }}
-        <div class="alert alert-danger">
-            {{.}}
+    {{end}}
+    <div class="row gap-20 masonry pos-r">
+        <div class="masonry-sizer col-md-6"></div>
+        <div class="masonry-item col-md-12">
+            <div class="bgc-white pX-20 pB-20 bd">
+                <div class="mT-30">
+                    <form method="POST" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label class="form-label" for="name">Nama Merek</label>
+                            <input type="text" name="brand_name" class="form-control" id="name" value="{{.Brand.BrandName}}">
+                            {{ with .Errors.BrandName }}
+                                <div class="alert alert-danger">
+                                    {{.}}
+                                </div>
+                            {{ end }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="name">Deskripsi Merek</label>
+                            <textarea name="desc_brand" class="form-control bdc-grey-200" rows="5">{{.Brand.DescBrand}}</textarea>
+                            {{ with .Errors.DescBrand }}
+                                <div class="alert alert-danger">
+                                    {{.}}
+                                </div>
+                            {{ end }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="foto">Logo Merek</label> <br>
+                            {{if .Brand.BrandLogo }}
+                                <img src="{{.Brand.BrandLogo}}" alt="" class="w-20p pb-3">
+                            {{end}}
+                            <input type="file" class="form-control" id="foto" name="brand_logo">
+                            <small id="emailHelp" class="text-muted">(png/jpg)</small>
+                            {{ with .Errors.BrandLogo }}
+                                <div class="alert alert-danger">
+                                    {{.}}
+                                </div>
+                            {{ end }}
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-color">Edit Permohonan</button>
+                    </form>
+                </div>
+            </div>
         </div>
-    {{ end }}
-
-
-    <label for="signature_url">Logo Merek: </label>
-    <div>
-        {{if .Brand.BrandLogo }}
-            <img src="{{.Brand.BrandLogo}}" width="150">
-        {{end}}
     </div>
-    <input type="file" name="brand_logo" accept="image/*">
-    <small>(png/jpg)</small>
-    {{ with .Errors.BrandLogo }}
-        <div class="alert alert-danger">
-            {{.}}
-        </div>
-    {{ end }}
-
-    <br> <br>
-    <input type="submit" value="Edit Merek"/>
-</form>
-</body>
-</html>
+</div>

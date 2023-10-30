@@ -1,5 +1,5 @@
 <div id="mainContent">
-    <h2>Pendaftaran Merek</h2>
+    <h2>Permohonan Merek</h2>
     {{if .message}}
         <div class="alert alert-success">
             {{.message}}
@@ -31,18 +31,15 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="foto">Logo Merek</label> <br>
-                            {{if .Business.BrandLogo }}
-                                <img src="{{.Business.BrandLogo}}" alt="" class="w-20p pb-3">
-                            {{end}}
                             <input type="file" class="form-control" id="foto" name="brand_logo">
                             <small id="emailHelp" class="text-muted">(png/jpg)</small>
-                            {{ with .Errors.BusinessLogo }}
+                            {{ with .Errors.BrandLogo }}
                                 <div class="alert alert-danger">
                                     {{.}}
                                 </div>
                             {{ end }}
                         </div>
-                        <button type="submit" class="btn btn-primary btn-color">Simpan Perubahan</button>
+                        <button type="submit" class="btn btn-primary btn-color">Ajukan Permohonan</button>
                     </form>
                 </div>
             </div>
