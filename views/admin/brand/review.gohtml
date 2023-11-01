@@ -1,0 +1,74 @@
+<div id="mainContent">
+    <h2>Review Permohonan Merek</h2>
+
+
+    <a href="/admin/brand">
+        <button type="button" class="mb-2 btn cur-p btn-primary btn-color">⬅️ Back</button>
+    </a>
+    <div class="row gap-20 masonry pos-r">
+        <div class="masonry-sizer col-md-6"></div>
+        <div class="masonry-item col-md-12">
+            <div class="bgc-white pX-20 pB-20 bd">
+                <div class="mT-30">
+
+                    <div class="mb-3">
+                        <label class="form-label" for="name">Nama Merek</label>
+                        <div>
+                            <span class="fsz-md font text-black">{{.Brand.BrandName}}</span>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="name">Deskripsi Merek</label>
+                        <div>
+                            <span class="fsz-md font text-black">{{.Brand.DescBrand}}</span>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="foto">Logo Merek</label> <br>
+                        {{if .Brand.BrandLogo }}
+                            <img src="{{.Brand.BrandLogo}}" alt="" class="w-20p pb-3">
+                        {{end}}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="name">Perusahaan</label>
+                        <div>
+                            <span class="fsz-md font text-black">{{.Business.BusinessName}}</span>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="name">Owner Perusahaan</label>
+                        <div>
+                            <span class="fsz-md font text-black">{{.Business.OwnerName}}</span>
+                        </div>
+                    </div>
+                    <form method="POST">
+                        <div class="mb-3">
+                            <label class="form-label" for="name">Status Permohonan</label>
+                            <select id="status" class="form-control" name="status" required>
+                                <option selected="selected" disabled>Choose...</option>
+                                <option name="OK">OK</option>
+                                <option name="Perbaiki">Perbaiki</option>
+                                <option name="Tolak">Tolak</option>
+                            </select>
+                            {{ with .Errors.Status }}
+                                <div class="alert alert-danger">
+                                    {{.}}
+                                </div>
+                            {{ end }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="name">Catatan</label>
+                            <textarea name="note" class="form-control bdc-grey-200" rows="5" placeholder="Silahkan masukkan catatan permohonan merek disini..."></textarea>
+                            {{ with .Errors.Note }}
+                                <div class="alert alert-danger">
+                                    {{.}}
+                                </div>
+                            {{ end }}
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-color">Simpan Review</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,45 @@
+<div id="mainContent">
+    {{if .message}}
+        <div class="alert alert-success">
+            {{.message}}
+        </div>
+    {{end}}
+    <div class="row gap-20 masonry pos-r">
+        <div class="masonry-sizer col-md-6"></div>
+        <div class="masonry-item col-md-6">
+            <div class="bgc-white p-20 bd layers">
+                {{if .User.ImageUrl }}
+                    <img src="{{.User.ImageUrl}}" alt="Profile Image" class="w-25 bdrs-10em">
+                {{else}}
+                    <img src="/img/default-profile.png" alt="Profile Image" class="w-25 bdrs-10em">
+                {{end}}
+                <h2 class="pT-20 c-grey-900">{{.User.Name}}</h2>
+                <h6>Admin</h6>
+
+            </div>
+        </div>
+        <div class="masonry-item col-md-6">
+            <div class="bgc-white pX-20 pB-20 bd">
+                <div class="mT-30">
+                    <form method="POST" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label class="form-label" for="name">Name</label>
+                            <input type="text" name="name" class="form-control" id="name" value="{{.User.Name}}">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="exampleInputEmail1">Email</label>
+                            <input type="email" class="form-control" id="exampleInputEmail1" value="{{.User.Email}}" disabled>
+                            <small id="emailHelp" class="text-muted">Email digunakan untuk login dan tidak bisa diubah.</small>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="foto">Foto Baru</label>
+                            <input type="file" class="form-control" id="foto" name="profile_image">
+                            <small id="emailHelp" class="text-muted">Kosongkan jika tidak ingin mengubah foto profil.</small>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-color">Simpan Perubahan</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

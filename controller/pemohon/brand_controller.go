@@ -11,8 +11,8 @@ import (
 )
 
 func ListBrand(c *fiber.Ctx) error {
-	message := helper.GetSession(c, "alertMessage")
-	helper.DeleteSession(c, "alertMessage")
+	message := helper.GetSession(c, "successMessage")
+	helper.DeleteSession(c, "successMessage")
 	var business model.Business
 	var user model.User
 

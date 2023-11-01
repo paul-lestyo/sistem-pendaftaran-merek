@@ -1,0 +1,43 @@
+<div class="content">
+    <h2>List Brand</h2>
+    <p>Halaman List Brand terdaftar di sistem.</p>
+    {{if .successMessage}}
+        <div class="alert alert-success">
+            {{.successMessage}}
+        </div>
+    {{end}}
+
+    <table id="dataTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+        <thead>
+        <tr>
+            <th>No</th>
+            <th>Nama Merek</th>
+            <th>Deskripsi Merek</th>
+            <th>Status</th>
+            <th>Catatan</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{range $index, $element := .Brands}}
+            <tr>
+                <td>{{increment $index}}</td>
+                <td>{{.BrandName}}</td>
+                <td>{{.DescBrand}}</td>
+                <td>{{.Status}}</td>
+                <td>{{.Note}}</td>
+                <td>
+                    <a href="/admin/brand/review/{{.ID}}"><button type="button" class="btn cur-p btn-info btn-color">
+                            {{if ne .Status "Menunggu"}}
+                                Ubah Review
+                            {{else}}
+                                Review
+                            {{end}}
+                        </button></a>
+                </td>
+            </tr>
+        {{end}}
+        </tbody>
+    </table>
+
+</div>

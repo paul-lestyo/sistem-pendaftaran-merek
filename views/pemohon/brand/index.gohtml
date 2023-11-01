@@ -1,6 +1,11 @@
 <div class="content">
     <h2>List Brand</h2>
     <p>Halaman List Brand terdaftar di sistem.</p>
+    {{if .successMessage}}
+        <div class="alert alert-success">
+            {{.successMessage}}
+        </div>
+    {{end}}
     <a href="/pemohon/brand/add">
         <button type="button" class="btn cur-p btn-primary btn-color">Ajukan Permohonan Merek</button>
     </a>
