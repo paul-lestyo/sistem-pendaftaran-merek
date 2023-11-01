@@ -13,11 +13,20 @@ type User struct {
 	ImageUrl string    `gorm:"type:varchar(255);not null"`
 	RoleID   uuid.UUID
 	Role     Role
-	Business *Business
+	Business *Business `gorm:"constraint:OnDelete:CASCADE;"`
 }
 
 type Users struct {
 	Users []User
+}
+
+type UsersBusinessCountBrands struct {
+	ID           string
+	Name         string
+	Email        string
+	ImageUrl     string
+	BusinessName string
+	CountBrands  int64
 }
 
 func (user *User) BeforeCreate(tx *gorm.DB) (err error) {

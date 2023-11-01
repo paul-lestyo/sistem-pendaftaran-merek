@@ -15,9 +15,9 @@ type Brand struct {
 	Status      string `gorm:"not null;type:enum('OK', 'Perbaiki', 'Tolak', 'Menunggu')"`
 	Note        string `gorm:"not null"`
 	CreatedByID uuid.UUID
-	CreatedBy   *User `gorm:"foreignKey:CreatedByID"`
+	CreatedBy   *User `gorm:"foreignKey:CreatedByID;constraint:OnDelete:CASCADE"`
 	UpdatedByID uuid.UUID
-	UpdatedBy   *User `gorm:"foreignKey:UpdatedByID"`
+	UpdatedBy   *User `gorm:"foreignKey:UpdatedByID;constraint:OnDelete:CASCADE"`
 }
 
 type Brands struct {

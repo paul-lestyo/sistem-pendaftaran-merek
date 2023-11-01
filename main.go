@@ -9,6 +9,7 @@ import (
 	"github.com/gofiber/template/html/v2"
 	"github.com/google/uuid"
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/database"
+	"github.com/paul-lestyo/sistem-pendaftaran-merek/helper"
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/model"
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/router"
 )
@@ -55,7 +56,23 @@ var ResultIDRole struct {
 func seedRole() {
 	err := database.DB.Table("roles").Select("id").Where("name = ?", "Pemohon").First(&ResultIDRole).Error
 	if err != nil {
-		database.DB.Create(&model.Role{Name: "Admin"})
-		database.DB.Create(&model.Role{Name: "Pemohon"})
+		admin := model.Role{Name: "Admin"}
+		pemohon := model.Role{Name: "Pemohon"}
+		database.DB.Create(&admin)
+		database.DB.Create(&pemohon)
+
+		hashedPassword, _ := helper.HashPassword("123")
+		database.DB.Create(&model.User{
+			Name:     "Paulus Lestyo A",
+			Email:    "paulus.lestyo@student.uns.ac.id",
+			Password: hashedPassword,
+			RoleID:   admin.ID,
+		})
+		database.DB.Create(&model.User{
+			Name:     "Paul L A",
+			Email:    "lestyo24@gmail.com",
+			Password: hashedPassword,
+			RoleID:   pemohon.ID,
+		})
 	}
 }

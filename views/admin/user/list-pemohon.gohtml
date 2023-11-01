@@ -1,0 +1,66 @@
+<div class="content">
+    <h2>List Pemohon</h2>
+    {{if .successMessage}}
+        <div class="alert alert-success">
+            {{.successMessage}}
+        </div>
+    {{end}}
+    <a href="/admin/user/add-pemohon">
+        <button type="button" class="btn cur-p btn-primary btn-color">Tambah Pemohon</button>
+    </a>
+
+    <table id="dataTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+        <thead>
+        <tr>
+            <th>No</th>
+            <th>Nama</th>
+            <th>Email</th>
+            <th>Image Profile</th>
+            <th>Nama Perusahaan</th>
+            <th>Merek yang diajukan</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{range $index, $element := .Users}}
+            <tr>
+                <td>{{increment $index}}</td>
+                <td>{{.Name}}</td>
+                <td>{{.Email}}</td>
+                <td>
+                    {{if .ImageUrl }}
+                        <img src="{{.ImageUrl}}" alt="Profile Image" width="100">
+                    {{else}}
+                        <img src="/img/default-profile.png" alt="Profile Image" width="100">
+                    {{end}}
+                </td>
+                <td>{{.BusinessName}}</td>
+                <td>{{.CountBrands}}</td>
+                <td>
+                    <a href="/admin/user/admin/edit/{{.ID}}"><button type="button" class="btn cur-p btn-secondary btn-color">Edit</button></a>
+                    <button type="button" class="btn cur-p btn-danger btn-color" data-bs-toggle="modal" data-bs-target="#exampleModal{{$index}}">Delete</button>
+                </td>
+            </tr>
+
+            <div class="modal fade" id="exampleModal{{$index}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Hapus Admin</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Anda yakin ingin menghapus pemohon {{.Name}}? Dengan menghapus pemohon akan menghapus data permohonan merek yang diajukan!
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <a href="/admin/user/pemohon/delete/{{.ID}}"><button type="button" class="btn cur-p btn-danger btn-color">Hapus</button></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {{end}}
+        </tbody>
+    </table>
+
+</div>
