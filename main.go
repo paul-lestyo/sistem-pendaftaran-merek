@@ -73,6 +73,7 @@ func seedRole() {
 			Email:    "lestyo24@gmail.com",
 			Password: hashedPassword,
 			RoleID:   pemohon.ID,
+			Business: &model.Business{},
 		})
 	}
 }

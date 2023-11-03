@@ -1,6 +1,7 @@
 package admin
 
 import (
+	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/mitchellh/mapstructure"
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/database"
@@ -10,6 +11,7 @@ import (
 
 func ListBrand(c *fiber.Ctx) error {
 	message := helper.GetSession(c, "successMessage")
+	fmt.Println("hoho:", message)
 	helper.DeleteSession(c, "successMessage")
 	var brands []model.Brand
 	var user model.User

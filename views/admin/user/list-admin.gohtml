@@ -1,8 +1,8 @@
 <div class="content">
     <h2>List Admin</h2>
-    {{if .successMessage}}
+    {{if .message}}
         <div class="alert alert-success">
-            {{.successMessage}}
+            {{.message}}
         </div>
     {{end}}
     <a href="/admin/user/add-admin">
@@ -33,7 +33,7 @@
                     {{end}}
                 </td>
                 <td>
-                    <a href="/admin/user/admin/edit/{{.ID}}"><button type="button" class="btn cur-p btn-secondary btn-color">Edit</button></a>
+                    <a href="/admin/user/edit-admin/{{.ID}}"><button type="button" class="btn cur-p btn-secondary btn-color">Edit</button></a>
                     <button type="button" class="btn cur-p btn-danger btn-color" data-bs-toggle="modal" data-bs-target="#exampleModal{{$index}}">Delete</button>
                 </td>
             </tr>
@@ -50,7 +50,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <a href="/admin/user/admin/delete/{{.ID}}"><button type="button" class="btn cur-p btn-danger btn-color">Hapus</button></a>
+                            <a href="/admin/user/delete-admin/{{.ID}}"><button type="button" class="btn cur-p btn-danger btn-color">Hapus</button></a>
                         </div>
                     </div>
                 </div>

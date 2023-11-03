@@ -48,5 +48,7 @@ func DeletePemohon(c *fiber.Ctx) error {
 	//_ = os.Remove(path.Join("assets", user.BrandLogo))
 	err = database.DB.Delete(&user).Error
 	helper.PanicIfError(err)
+
+	helper.SetSession(c, "successMessage", "Berhasil menghapus akun Pemohon!")
 	return c.Redirect("/admin/user/list-pemohon")
 }
