@@ -85,7 +85,6 @@ func StoreAdmin(c *fiber.Ctx) error {
 		Password: hashedPassword,
 		ImageUrl: path,
 		RoleID:   role.ID,
-		Business: &model.Business{},
 	}
 
 	result := database.DB.Create(&user)
@@ -122,7 +121,7 @@ type EditAdminUser struct {
 	Role     string
 }
 
-func UpdateUserAdmin(c *fiber.Ctx) error {
+func UpdateAdmin(c *fiber.Ctx) error {
 	id := c.Params("userId")
 	var user model.User
 

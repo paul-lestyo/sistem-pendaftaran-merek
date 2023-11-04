@@ -30,7 +30,7 @@ func ProfileAdmin(c *fiber.Ctx) error {
 	}, "layouts/admin")
 }
 
-func UpdateAdmin(c *fiber.Ctx) error {
+func UpdateProfileAdmin(c *fiber.Ctx) error {
 	img, updateImg := helper.CheckInputFile(c, "profile_image")
 	updateRegisterUser := UpdateProfileUser{
 		Name:  c.FormValue("name"),

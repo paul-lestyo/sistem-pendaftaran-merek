@@ -1,8 +1,8 @@
 <div class="content">
     <h2>List Pemohon</h2>
-    {{if .successMessage}}
+    {{if .message}}
         <div class="alert alert-success">
-            {{.successMessage}}
+            {{.message}}
         </div>
     {{end}}
     <a href="/admin/user/add-pemohon">
@@ -37,7 +37,7 @@
                 <td>{{.BusinessName}}</td>
                 <td>{{.CountBrands}}</td>
                 <td>
-                    <a href="/admin/user/admin/edit/{{.ID}}"><button type="button" class="btn cur-p btn-secondary btn-color">Edit</button></a>
+                    <a href="/admin/user/edit-pemohon/{{.ID}}"><button type="button" class="btn cur-p btn-secondary btn-color">Edit</button></a>
                     <button type="button" class="btn cur-p btn-danger btn-color" data-bs-toggle="modal" data-bs-target="#exampleModal{{$index}}">Delete</button>
                 </td>
             </tr>

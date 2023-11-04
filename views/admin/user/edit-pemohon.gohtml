@@ -1,0 +1,130 @@
+<div id="mainContent">
+    <h2>Add Pemohon</h2>
+    {{if .message}}
+        <div class="alert alert-success">
+            {{.message}}
+        </div>
+    {{end}}
+    <div class="row gap-20 masonry pos-r">
+        <div class="masonry-sizer col-md-6"></div>
+        <div class="masonry-item col-md-12">
+            <div class="bgc-white pX-20 pB-20 bd">
+                <div class="mT-15">
+                    <h6 class="c-grey-900">Data Profil Pemohon</h6>
+                    <form method="POST" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label class="form-label" class="text-normal text-dark">Name</label>
+                            <input type="text" class="form-control" name="name" value="{{.UserEdit.Name}}">
+                            {{ with .Errors.Name }}
+                                <div class="alert alert-danger">
+                                    {{.}}
+                                </div>
+                            {{ end }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" class="text-normal text-dark">Email Address</label>
+                            <input type="email" class="form-control" name="email" value="{{.UserEdit.Email}}">
+                            {{ with .Errors.Email }}
+                                <div class="alert alert-danger">
+                                    {{.}}
+                                </div>
+                            {{ end }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" class="text-normal text-dark">Password</label>
+                            <input type="password" class="form-control" placeholder="Password" name="password">
+                            {{ with .Errors.Password }}
+                                <div class="alert alert-danger">
+                                    {{.}}
+                                </div>
+                            {{ end }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="foto">Foto Profil</label> <br>
+                            {{if .UserEdit.ImageUrl }}
+                                <img src="{{.UserEdit.ImageUrl}}" alt="" class="w-20p pb-3">
+                            {{end}}
+                            <input type="file" class="form-control" id="foto" name="image_url">
+                            <small id="emailHelp" class="text-muted">(optional, png/jpg)</small>
+                            {{ with .Errors.ImageUrl }}
+                                <div class="alert alert-danger">
+                                    {{.}}
+                                </div>
+                            {{ end }}
+                        </div>
+                        <h6 class="c-grey-900 mT-15">Data Perusahaan Pemohon</h6>
+                        <div class="mb-3">
+                            <label class="form-label" for="name">Nama Bisnis</label>
+                            <input type="text" name="business_name" class="form-control" id="name" value="{{.Business.BusinessName}}">
+                            {{ with .Errors.BusinessName }}
+                                <div class="alert alert-danger">
+                                    {{.}}
+                                </div>
+                            {{ end }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="name">Alamat Bisnis</label>
+                            <input type="text" name="business_address" class="form-control" id="name" value="{{.Business.BusinessAddress}}">
+                            {{ with .Errors.BusinessAddress }}
+                                <div class="alert alert-danger">
+                                    {{.}}
+                                </div>
+                            {{ end }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="name">Nama Owner</label>
+                            <input type="text" name="owner_name" class="form-control" id="name" value="{{.Business.OwnerName}}">
+                            {{ with .Errors.OwnerName }}
+                                <div class="alert alert-danger">
+                                    {{.}}
+                                </div>
+                            {{ end }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="foto">Logo Bisnis</label> <br>
+                            {{if .Business.BusinessLogo }}
+                                <img src="{{.Business.BusinessLogo}}" alt="" class="w-20p pb-3">
+                            {{end}}
+                            <input type="file" class="form-control" id="foto" name="business_logo">
+                            <small id="emailHelp" class="text-muted">(png/jpg)</small>
+                            {{ with .Errors.BusinessLogo }}
+                                <div class="alert alert-danger">
+                                    {{.}}
+                                </div>
+                            {{ end }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="foto">Surat keterangan UMK</label> <br>
+                            {{if .Business.UMKCertificateUrl }}
+                                <img src="{{.Business.UMKCertificateUrl}}" alt="" class="w-20p pb-3">
+                            {{end}}
+                            <input type="file" class="form-control" id="foto" name="umk_certificate_url">
+                            <small id="emailHelp" class="text-muted">(optional, png/jpg)</small>
+                            {{ with .Errors.UMKCertificateUrl }}
+                                <div class="alert alert-danger">
+                                    {{.}}
+                                </div>
+                            {{ end }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="foto">Tanda Tangan</label> <br>
+                            {{if .Business.SignatureUrl }}
+                                <img src="{{.Business.SignatureUrl}}" alt="" class="w-20p pb-3">
+                            {{end}}
+                            <input type="file" class="form-control" id="foto" name="signature_url">
+                            <small id="emailHelp" class="text-muted">(png/jpg)</small>
+                            {{ with .Errors.SignatureUrl }}
+                                <div class="alert alert-danger">
+                                    {{.}}
+                                </div>
+                            {{ end }}
+                        </div>
+                        <div class="mb-3">
+                            <button class="btn btn-primary btn-color">Edit Akun</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

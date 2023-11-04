@@ -22,17 +22,21 @@ func SetupRoutes(app *fiber.App) {
 	adminGroup := app.Group("/admin", AdminAuth.AuthMiddleware)
 	adminGroup.Get("/dashboard", admin.Dashboard)
 	adminGroup.Get("/profile", admin.ProfileAdmin)
-	adminGroup.Post("/profile", admin.UpdateAdmin)
+	adminGroup.Post("/profile", admin.UpdateProfileAdmin)
 
 	adminUser := adminGroup.Group("user")
 	adminUser.Get("/list-admin", admin.ListAdmin)
 	adminUser.Get("/add-admin", admin.AddAdmin)
 	adminUser.Post("/add-admin", admin.StoreAdmin)
 	adminUser.Get("/edit-admin/:userId", admin.EditAdmin)
-	adminUser.Post("/edit-admin/:userId", admin.UpdateUserAdmin)
+	adminUser.Post("/edit-admin/:userId", admin.UpdateAdmin)
 	adminUser.Get("/delete-admin/:userId", admin.DeleteAdmin)
 
 	adminUser.Get("/list-pemohon", admin.ListPemohon)
+	adminUser.Get("/add-pemohon", admin.AddPemohon)
+	adminUser.Post("/add-pemohon", admin.StorePemohon)
+	adminUser.Get("/edit-pemohon/:userId", admin.EditPemohon)
+	adminUser.Post("/edit-pemohon/:userId", admin.UpdatePemohon)
 	adminUser.Get("/delete-pemohon/:userId", admin.DeletePemohon)
 
 	adminBrand := adminGroup.Group("brand")
