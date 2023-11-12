@@ -28,6 +28,7 @@ type UsersBusinessCountBrands struct {
 	Name         string
 	Email        string
 	ImageUrl     string
+	IsActive     bool
 	BusinessName string
 	CountBrands  int64
 }

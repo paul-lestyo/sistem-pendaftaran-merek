@@ -18,6 +18,7 @@
             <th>Image Profile</th>
             <th>Nama Perusahaan</th>
             <th>Merek yang diajukan</th>
+            <th>Status Akun</th>
             <th>Action</th>
         </tr>
         </thead>
@@ -36,7 +37,18 @@
                 </td>
                 <td>{{.BusinessName}}</td>
                 <td>{{.CountBrands}}</td>
+                {{if eq .IsActive true}}
+                    <td>Aktif</td>
+                {{else}}
+                    <td>Tidak Aktif</td>
+                {{end}}
+
                 <td>
+                    {{if eq .IsActive true}}
+                        <a href="/admin/user/deactivate-pemohon/{{.ID}}"><button class="btn btn-primary btn-color">Deactivate</button></a>
+                    {{else}}
+                        <a href="/admin/user/activate-pemohon/{{.ID}}"><button class="btn btn-primary btn-color">Activate</button></a>
+                    {{end}}
                     <a href="/admin/user/edit-pemohon/{{.ID}}"><button type="button" class="btn cur-p btn-secondary btn-color">Edit</button></a>
                     <button type="button" class="btn cur-p btn-danger btn-color" data-bs-toggle="modal" data-bs-target="#exampleModal{{$index}}">Delete</button>
                 </td>

@@ -21,7 +21,7 @@ func ListPemohon(c *fiber.Ctx) error {
 	err = database.DB.First(&user, "id = ?", helper.GetSession(c, "LoggedIn")).Error
 	helper.PanicIfError(err)
 
-	rows, err := database.DB.Raw("SELECT users.id, users.name, users.email, users.image_url, businesses.business_name, businesses.owner_name, COUNT(brands.id) as count_brands FROM users "+
+	rows, err := database.DB.Raw("SELECT users.id, users.name, users.email, users.image_url, users.is_active, businesses.business_name, businesses.owner_name, COUNT(brands.id) as count_brands FROM users "+
 		"left join businesses on businesses.user_id = users.id "+
 		"left join brands on businesses.id = brands.business_id "+
 		"WHERE users.role_id=? GROUP BY users.id;", role.ID).Rows()
@@ -273,6 +273,36 @@ func DeletePemohon(c *fiber.Ctx) error {
 	helper.PanicIfError(err)
 
 	helper.SetSession(c, "successMessage", "Berhasil menghapus akun Pemohon!")
+	return c.Redirect("/admin/user/list-pemohon")
+}
+
+func DeactivatePemohon(c *fiber.Ctx) error {
+	id := c.Params("userId")
+	var user model.User
+
+	err := database.DB.First(&user, "id = ?", id).Error
+	helper.PanicIfError(err)
+
+	user.IsActive = false
+	err = database.DB.Save(&user).Error
+	helper.PanicIfError(err)
+
+	helper.SetSession(c, "successMessage", "Berhasil menonaktifkan akun Pemohon!")
+	return c.Redirect("/admin/user/list-pemohon")
+}
+
+func ActivatePemohon(c *fiber.Ctx) error {
+	id := c.Params("userId")
+	var user model.User
+
+	err := database.DB.First(&user, "id = ?", id).Error
+	helper.PanicIfError(err)
+
+	user.IsActive = true
+	err = database.DB.Save(&user).Error
+	helper.PanicIfError(err)
+
+	helper.SetSession(c, "successMessage", "Berhasil mengaktifkan akun Pemohon!")
 	return c.Redirect("/admin/user/list-pemohon")
 }
 
