@@ -5,21 +5,40 @@
             {{.message}}
         </div>
     {{end}}
-    <div class="row gap-20 masonry pos-r">
+    <div class="row gap-20 pos-r">
         <div class="masonry-sizer col-md-6"></div>
         <div class="masonry-item col-md-12">
             <div class="bgc-white pX-20 pB-20 bd">
                 <div class="mT-30">
                     <form method="POST" enctype="multipart/form-data">
                         <div class="mb-3">
-                            <label class="form-label" for="name">Nama Merek</label>
-                            <input type="text" name="brand_name" class="form-control" id="name" placeholder="Silahkan masukkan nama merek disini...">
+                            <label class="form-label" for="brand_name">Nama Merek</label>
+                            <input type="text" name="brand_name" class="form-control" id="brand_name" required placeholder="Silahkan masukkan nama merek disini...">
                             {{ with .Errors.BrandName }}
                                 <div class="alert alert-danger">
                                     {{.}}
                                 </div>
                             {{ end }}
                         </div>
+                        <div class="mb-3">
+                            <button class="mb-3 btn btn-info btn-color" id="btnSimilarityCheck"><small>Cek Nama Brand</small></button>
+                            <table id="dataSimilarity" style="width: auto" class="d-none table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>Brand Name</th>
+                                    <th>Owner</th>
+                                    <th>Similarity</th>
+                                </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                            <span id="noSimilarity" class="d-none">
+                                <i class="mX-10 ti-check c-green-300"></i> <span class="fw-500">Nama Merek Anda </span> <span id="newBrandName" class="c-red-300"></span>
+                                <span class="c-grey-600">tidak ada yang menyamai pada laman <span class="text-dark">PDKI</span></span>
+                            </span>
+                        </div>
+
+
                         <div class="mb-3">
                             <label class="form-label" for="name">Deskripsi Merek</label>
                             <textarea name="desc_brand" class="form-control bdc-grey-200" rows="5" placeholder="Silahkan masukkan deskripsi merek disini..."></textarea>
@@ -46,3 +65,47 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const btn = document.getElementById("btnSimilarityCheck");
+        btn.addEventListener("click", function(event) {
+            event.preventDefault();
+
+            let brandName = document.getElementById("brand_name").value
+            fetch(`/api/searchPDKI/${encodeURIComponent(brandName)}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if(data != null){
+                        document.getElementById("dataSimilarity").classList.remove('d-none')
+                        document.getElementById("noSimilarity").classList.add('d-none')
+                        let tableBody = document.querySelector('#dataSimilarity tbody');
+                        tableBody.innerHTML = '';
+
+                        data.forEach(item => {
+                            let row = tableBody.insertRow();
+                            let cell1 = row.insertCell(0);
+                            let cell2 = row.insertCell(1);
+                            let cell3 = row.insertCell(2);
+
+                            cell1.textContent = item.brand_name;
+                            cell2.textContent = item.owner;
+                            cell3.textContent = item.similarity;
+                        });
+                    } else {
+                        document.getElementById("dataSimilarity").classList.add('d-none')
+                        document.getElementById("noSimilarity").classList.remove('d-none')
+                        document.getElementById("newBrandName").textContent = brandName
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+    });
+</script>

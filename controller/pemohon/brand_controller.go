@@ -1,6 +1,7 @@
 package pemohon
 
 import (
+	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/mitchellh/mapstructure"
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/database"
@@ -21,6 +22,8 @@ func ListBrand(c *fiber.Ctx) error {
 
 	err = database.DB.Preload("Brands").First(&business, "user_id = ?", helper.GetSession(c, "LoggedIn")).Error
 	helper.PanicIfError(err)
+
+	fmt.Println(business.Brands)
 
 	return c.Render("pemohon/brand/index", fiber.Map{
 		"User":    user,
@@ -179,6 +182,7 @@ func UpdateBrand(c *fiber.Ctx) error {
 
 	brand.BrandName = c.FormValue("brand_name")
 	brand.DescBrand = c.FormValue("desc_brand")
+	brand.Status = "Menunggu"
 
 	if uploadImg {
 		if pathFile, ok := helper.UploadFile(c, "brand_logo", "brand"); ok {

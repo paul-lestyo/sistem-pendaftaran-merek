@@ -56,7 +56,7 @@ func UpdateReviewBrand(c *fiber.Ctx) error {
 	id := c.Params("brandId")
 	var brand model.Brand
 
-	err := database.DB.Preload("Business").First(&brand, "id = ?", id).Error
+	err := database.DB.First(&brand, "id = ?", id).Error
 	helper.PanicIfError(err)
 
 	updateReviewBrandPemohon := UpdateReviewBrandPemohon{

@@ -5,7 +5,7 @@
     <a href="/admin/brand">
         <button type="button" class="mb-2 btn cur-p btn-primary btn-color">⬅️ Back</button>
     </a>
-    <div class="row gap-20 masonry pos-r">
+    <div class="row gap-20 pos-r">
         <div class="masonry-sizer col-md-6"></div>
         <div class="masonry-item col-md-12">
             <div class="bgc-white pX-20 pB-20 bd">
@@ -14,8 +14,25 @@
                     <div class="mb-3">
                         <label class="form-label" for="name">Nama Merek</label>
                         <div>
-                            <span class="fsz-md font text-black">{{.Brand.BrandName}}</span>
+                            <span id="brand_name" class="fsz-md font text-black">{{.Brand.BrandName}}</span>
                         </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="name">Similaritas Nama Merek</label>
+                        <table id="dataSimilarity" style="width: auto" class="d-none table table-striped table-bordered">
+                            <thead>
+                            <tr>
+                                <th>Brand Name</th>
+                                <th>Owner</th>
+                                <th>Similarity</th>
+                            </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                        <span id="noSimilarity" class="d-none">
+                                    <i class="mX-10 ti-check c-green-300"></i> <span class="fw-500">Nama Merek </span> <span id="newBrandName" class="c-red-300"></span>
+                                    <span class="c-grey-600">tidak ada yang menyamai pada laman <span class="text-dark">PDKI</span></span>
+                                </span>
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="name">Deskripsi Merek</label>
@@ -72,3 +89,40 @@
         </div>
     </div>
 </div>
+
+<script>
+    let brandName = document.getElementById("brand_name").textContent
+    fetch(`/api/searchPDKI/${encodeURIComponent(brandName)}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if(data != null){
+                document.getElementById("dataSimilarity").classList.remove('d-none')
+                document.getElementById("noSimilarity").classList.add('d-none')
+                let tableBody = document.querySelector('#dataSimilarity tbody');
+                tableBody.innerHTML = '';
+
+                data.forEach(item => {
+                    let row = tableBody.insertRow();
+                    let cell1 = row.insertCell(0);
+                    let cell2 = row.insertCell(1);
+                    let cell3 = row.insertCell(2);
+
+                    cell1.textContent = item.brand_name;
+                    cell2.textContent = item.owner;
+                    cell3.textContent = item.similarity;
+                });
+            } else {
+                document.getElementById("dataSimilarity").classList.add('d-none')
+                document.getElementById("noSimilarity").classList.remove('d-none')
+                document.getElementById("newBrandName").textContent = brandName
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+</script>

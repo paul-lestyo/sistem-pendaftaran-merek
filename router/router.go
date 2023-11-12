@@ -4,6 +4,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/controller"
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/controller/admin"
+	"github.com/paul-lestyo/sistem-pendaftaran-merek/controller/api"
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/controller/auth"
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/controller/pemohon"
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/middleware"
@@ -12,6 +13,8 @@ import (
 func SetupRoutes(app *fiber.App) {
 	AdminAuth := middleware.AuthHandler{Role: "Admin"}
 	PemohonAuth := middleware.AuthHandler{Role: "Pemohon"}
+
+	app.Get("/api/searchPDKI/:search", api.SearchDataPDKI)
 
 	app.Get("/", auth.Login)
 	app.Post("/", auth.CheckLogin)
