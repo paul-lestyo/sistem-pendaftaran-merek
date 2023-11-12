@@ -20,9 +20,6 @@ func Connect() {
 	if err != nil {
 		fmt.Println("Error parsing str to int")
 	}
-
-	fmt.Println("hoho:", config.Config("DB_USER"))
-
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 		config.Config("DB_USER"),
 		config.Config("DB_PASSWORD"),
@@ -47,6 +44,7 @@ func Connect() {
 	db.AutoMigrate(&model.Announcement{})
 	db.AutoMigrate(&model.Brand{})
 	db.AutoMigrate(&model.Business{})
+	db.AutoMigrate(&model.Log{})
 
 	DB = db
 }

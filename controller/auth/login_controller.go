@@ -42,6 +42,9 @@ func CheckLogin(c *fiber.Ctx) error {
 			helper.SetSession(c, "LoggedIn", user.ID.String())
 			helper.SetSession(c, "RoleUser", user.Role.Name)
 
+			log := model.Log{UserID: user.ID}
+			database.DB.Create(&log)
+
 			return c.Redirect(strings.ToLower(user.Role.Name) + "/dashboard")
 		}
 	}
