@@ -19,7 +19,7 @@ type Brand struct {
 	CreatedBy   *User `gorm:"foreignKey:CreatedByID;constraint:OnDelete:CASCADE"`
 	UpdatedByID uuid.UUID
 	UpdatedBy   *User `gorm:"foreignKey:UpdatedByID;constraint:OnDelete:CASCADE"`
-	CreatedAt   time.Time
+	CreatedAt   *time.Time
 }
 
 type Brands struct {

@@ -6,6 +6,12 @@
             {{.message}}
         </div>
     {{end}}
+
+    {{if .messageAlert}}
+        <div class="alert alert-danger">
+            {{.messageAlert}}
+        </div>
+    {{end}}
     <div class="row gap-20 masonry pos-r">
         <div class="masonry-sizer col-md-6"></div>
         <div class="masonry-item col-md-12">

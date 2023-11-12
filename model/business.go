@@ -17,7 +17,7 @@ type Business struct {
 	UMKCertificateUrl string  `gorm:"not null"`
 	SignatureUrl      string  `gorm:"not null"`
 	Brands            []Brand `gorm:"constraint:OnDelete:CASCADE;"`
-	CreatedAt         time.Time
+	CreatedAt         *time.Time
 }
 
 type Businesses struct {

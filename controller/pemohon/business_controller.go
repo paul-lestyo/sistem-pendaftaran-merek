@@ -20,15 +20,19 @@ type UpdateBusinessVal struct {
 func ProfileBusiness(c *fiber.Ctx) error {
 	message := helper.GetSession(c, "successMessage")
 	helper.DeleteSession(c, "successMessage")
+
+	messageAlert := helper.GetSession(c, "messageAlert")
+	helper.DeleteSession(c, "messageAlert")
 	var user model.User
 
 	err := database.DB.Preload("Business").First(&user, "id = ?", helper.GetSession(c, "LoggedIn")).Error
 	helper.PanicIfError(err)
 
 	return c.Render("pemohon/profile/business", fiber.Map{
-		"User":     user,
-		"Business": user.Business,
-		"message":  message,
+		"User":         user,
+		"Business":     user.Business,
+		"message":      message,
+		"messageAlert": messageAlert,
 	}, "layouts/pemohon")
 }
 

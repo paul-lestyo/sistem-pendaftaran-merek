@@ -16,7 +16,7 @@ type User struct {
 	RoleID    uuid.UUID
 	Role      Role
 	Business  *Business `gorm:"constraint:OnDelete:CASCADE;"`
-	CreatedAt time.Time
+	CreatedAt *time.Time
 }
 
 type Users struct {

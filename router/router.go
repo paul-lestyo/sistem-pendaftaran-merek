@@ -57,7 +57,7 @@ func SetupRoutes(app *fiber.App) {
 	pemohonProfile.Get("business", pemohon.ProfileBusiness)
 	pemohonProfile.Post("business", pemohon.UpdateBusiness)
 
-	pemohonBrand := pemohonGroup.Group("brand") // tambahin middleware cek data bisnis sudah dilengkapi
+	pemohonBrand := pemohonGroup.Group("brand", middleware.BusinessFilledMiddleware) // tambahin middleware cek data bisnis sudah dilengkapi
 	pemohonBrand.Get("/", pemohon.ListBrand)
 	pemohonBrand.Get("/add", pemohon.AddBrand)
 	pemohonBrand.Post("/add", pemohon.CreateBrand)

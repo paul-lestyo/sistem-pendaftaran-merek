@@ -14,7 +14,7 @@ type Announcement struct {
 	ImageUrl  string
 	CreatedBy uuid.UUID
 	User      User `gorm:"foreignKey:CreatedBy"`
-	CreatedAt time.Time
+	CreatedAt *time.Time
 }
 
 type Announcements struct {
