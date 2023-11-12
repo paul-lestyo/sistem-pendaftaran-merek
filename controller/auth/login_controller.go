@@ -33,6 +33,10 @@ func CheckLogin(c *fiber.Ctx) error {
 	var user model.User
 	err := database.DB.Preload("Role").Where("email = ?", email).First(&user).Error
 	if err == nil {
+		if user.IsActive == false {
+			helper.SetSession(c, "message", "Akun belum aktif. Silahkan hubungi admin untuk aktivasi")
+			return c.Redirect("/")
+		}
 		fmt.Println(bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)))
 		if err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err == nil {
 			helper.SetSession(c, "LoggedIn", user.ID.String())

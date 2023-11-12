@@ -68,6 +68,7 @@ func seedRole() {
 			Email:    "paulus.lestyo@student.uns.ac.id",
 			Password: hashedPassword,
 			RoleID:   admin.ID,
+			IsActive: true,
 		})
 		database.DB.Create(&model.User{
 			Name:     "Paul L A",
@@ -75,6 +76,7 @@ func seedRole() {
 			Password: hashedPassword,
 			RoleID:   pemohon.ID,
 			Business: &model.Business{},
+			IsActive: true,
 		})
 	}
 }

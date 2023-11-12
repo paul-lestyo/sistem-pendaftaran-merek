@@ -3,6 +3,7 @@ package model
 import (
 	"github.com/google/uuid"
 	"gorm.io/gorm"
+	"time"
 )
 
 type Brand struct {
@@ -18,6 +19,7 @@ type Brand struct {
 	CreatedBy   *User `gorm:"foreignKey:CreatedByID;constraint:OnDelete:CASCADE"`
 	UpdatedByID uuid.UUID
 	UpdatedBy   *User `gorm:"foreignKey:UpdatedByID;constraint:OnDelete:CASCADE"`
+	CreatedAt   time.Time
 }
 
 type Brands struct {

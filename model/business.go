@@ -3,6 +3,7 @@ package model
 import (
 	"github.com/google/uuid"
 	"gorm.io/gorm"
+	"time"
 )
 
 type Business struct {
@@ -16,6 +17,7 @@ type Business struct {
 	UMKCertificateUrl string  `gorm:"not null"`
 	SignatureUrl      string  `gorm:"not null"`
 	Brands            []Brand `gorm:"constraint:OnDelete:CASCADE;"`
+	CreatedAt         time.Time
 }
 
 type Businesses struct {
