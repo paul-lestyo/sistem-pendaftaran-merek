@@ -15,6 +15,8 @@ func SetupRoutes(app *fiber.App) {
 	PemohonAuth := middleware.AuthHandler{Role: "Pemohon"}
 
 	app.Get("/api/searchPDKI/:search", api.SearchDataPDKI)
+	app.Get("/api/getChartBrand/:date", api.GetDataChartPermohonanMerek)
+	app.Get("/api/getChartLogin/:date", api.GetDataChartLogin)
 
 	app.Get("/", auth.Login)
 	app.Post("/", auth.CheckLogin)

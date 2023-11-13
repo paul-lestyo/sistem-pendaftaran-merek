@@ -1,13 +1,23 @@
 <div id="mainContent">
     <div class="row gap-20 masonry pos-r">
         <div class="masonry-sizer col-md-6"></div>
+        <div class="masonry-item col-md-12">
+            <!-- #Todo ==================== -->
+            <div class="bd bgc-white p-20">
+                <div class="">
+                    <h2>Dashboard</h2>
+                    <p>Selamat datang di dashboard Admin.</p>
+                    {{.ChartPermohonanMerek}}
+                </div>
+            </div>
+        </div>
         <div class="masonry-item w-100">
             <div class="row gap-20">
                 <!-- #Toatl Visits ==================== -->
                 <div class="col-md-3">
                     <div class="layers bd bgc-white p-20">
                         <div class="layer w-100 mB-10">
-                            <h6 class="lh-1">Total Visits</h6>
+                            <h6 class="lh-1">Total Akun</h6>
                         </div>
                         <div class="layer w-100">
                             <div class="peers ai-sb fxw-nw">
@@ -15,7 +25,7 @@
                                     <span id="sparklinedash"></span>
                                 </div>
                                 <div class="peer">
-                                    <span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-green-50 c-green-500">+10%</span>
+                                    <span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-green-50 c-green-500">{{.Infografis.TotalAkun}}</span>
                                 </div>
                             </div>
                         </div>
@@ -26,7 +36,7 @@
                 <div class="col-md-3">
                     <div class="layers bd bgc-white p-20">
                         <div class="layer w-100 mB-10">
-                            <h6 class="lh-1">Total Page Views</h6>
+                            <h6 class="lh-1">Total Permohonan Merek</h6>
                         </div>
                         <div class="layer w-100">
                             <div class="peers ai-sb fxw-nw">
@@ -34,7 +44,7 @@
                                     <span id="sparklinedash2"></span>
                                 </div>
                                 <div class="peer">
-                                    <span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-red-50 c-red-500">-7%</span>
+                                    <span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-purple-50 c-purple-500">{{.Infografis.TotalPermohonanMerek}}</span>
                                 </div>
                             </div>
                         </div>
@@ -45,7 +55,7 @@
                 <div class="col-md-3">
                     <div class="layers bd bgc-white p-20">
                         <div class="layer w-100 mB-10">
-                            <h6 class="lh-1">Unique Visitor</h6>
+                            <h6 class="lh-1">Total Pengumuman</h6>
                         </div>
                         <div class="layer w-100">
                             <div class="peers ai-sb fxw-nw">
@@ -53,7 +63,7 @@
                                     <span id="sparklinedash3"></span>
                                 </div>
                                 <div class="peer">
-                                    <span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-purple-50 c-purple-500">~12%</span>
+                                    <span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-blue-50 c-blue-500">{{.Infografis.TotalPengumuman}}</span>
                                 </div>
                             </div>
                         </div>
@@ -64,7 +74,7 @@
                 <div class="col-md-3">
                     <div class="layers bd bgc-white p-20">
                         <div class="layer w-100 mB-10">
-                            <h6 class="lh-1">Bounce Rate</h6>
+                            <h6 class="lh-1">Total Login</h6>
                         </div>
                         <div class="layer w-100">
                             <div class="peers ai-sb fxw-nw">
@@ -72,7 +82,7 @@
                                     <span id="sparklinedash4"></span>
                                 </div>
                                 <div class="peer">
-                                    <span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-blue-50 c-blue-500">33%</span>
+                                    <span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-red-50 c-red-500">{{.Infografis.TotalLogin}}</span>
                                 </div>
                             </div>
                         </div>
@@ -82,14 +92,229 @@
         </div>
 
         <div class="masonry-item col-md-12">
-            <!-- #Todo ==================== -->
-            <div class="bd bgc-white p-20">
-                <div class="">
-                    <h2>Dashboard</h2>
-                    <p>Selamat datang di dashboard Admin.</p>
+            <div class="bgc-white p-20 bd">
+                <div class="mT-4 text-center">
+                    <h6>Chart berdasarkan:</h6>
+                    <div class="gap-20">
+                        <input name="tri" type="radio" id="day" checked>
+                        <label for="day">Hari</label>
+                        <input name="tri" type="radio" id="month">
+                        <label for="month">Bulan</label>
+                        <input name="tri" type="radio" id="year">
+                        <label for="year">Tahun</label>
+                    </div>
                 </div>
             </div>
         </div>
 
+        <div class="masonry-item col-md-6">
+            <div class="bgc-white p-20 bd">
+                <div class="mT-30">
+                    <div id="line-chart-data" height="220"></div>
+                </div>
+            </div>
+        </div>
+        <div class="masonry-item col-md-6">
+            <div class="bgc-white p-20 bd">
+                <div class="mT-30">
+                    <div id="bar-chart-data" height="220"></div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+
+<script src="/highcharts/highcharts.js"></script>
+<script src="/highcharts/modules/series-label.js"></script>
+<script src="/highcharts/modules/exporting.js"></script>
+<script src="/highcharts/modules/export-data.js"></script>
+<script src="/highcharts/modules/accessibility.js"></script>
+<script type="text/javascript">
+    function createChartPermohonanMerek(data) {
+        Highcharts.chart('line-chart-data', {
+            chart: {
+                zoomType: 'x',
+            },
+            title: {
+                text: 'Permohonan Merek'
+            },
+            subtitle: {
+                text: '---------------'
+            },
+            yAxis: {
+                title: {
+                    text: 'Banyak Pengajuan'
+                }
+            },
+            xAxis: {
+                type: 'category',
+                accessibility: {
+                    rangeDescription: 'Waktu'
+                }
+            },
+            tooltip: {
+                pointFormat: '{point.y} Meter'
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle'
+            },
+            plotOptions: {
+                series: {
+                    label: {
+                        connectorAllowed: false
+                    }
+                }
+            },
+            series: [{
+                name: 'Pengajuan',
+                lineWidth: 2,
+                data: data,
+            }],
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            layout: 'horizontal',
+                            align: 'center',
+                            verticalAlign: 'bottom'
+                        }
+                    }
+                }]
+            },
+
+        });
+    }
+
+    function createChartLogin(data) {
+        Highcharts.chart('bar-chart-data', {
+            chart: {
+                zoomType: 'x',
+                type: 'column'
+            },
+            colors: ['green'],
+            title: {
+                text: 'Akses Member'
+            },
+            subtitle: {
+                text: '----------------'
+            },
+            yAxis: {
+                title: {
+                    text: 'Banyak Login'
+                }
+            },
+            xAxis: {
+                type: 'category',
+                accessibility: {
+                    rangeDescription: 'Waktu'
+                }
+            },
+            tooltip: {
+                pointFormat: '{point.y} mm',
+                shared: true,
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle'
+            },
+            plotOptions: {
+                series: {
+                    label: {
+                        connectorAllowed: false
+                    }
+                }
+            },
+            series: [{
+                name: 'Login',
+                lineWidth: 2,
+                data: data,
+            }],
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            layout: 'horizontal',
+                            align: 'center',
+                            verticalAlign: 'bottom'
+                        }
+                    }
+                }]
+            },
+
+        });
+    }
+
+
+    fetch('/api/getChartBrand/day')
+        .then(response => response.json())
+        .then(data => {
+            createChartPermohonanMerek(data)
+        })
+
+    fetch('/api/getChartLogin/day')
+        .then(response => response.json())
+        .then(data => {
+            createChartLogin(data)
+        })
+
+    document.getElementById('day').addEventListener('click', function() {
+        fetch('/api/getChartBrand/day')
+            .then(response => response.json())
+            .then(data => {
+                Highcharts.charts[0].series[0].update({
+                    data: data,
+                });
+            })
+        fetch('/api/getChartLogin/day')
+            .then(response => response.json())
+            .then(data => {
+                Highcharts.charts[1].series[0].update({
+                    data: data,
+                });
+            })
+    });
+
+    document.getElementById('month').addEventListener('click', function() {
+        fetch('/api/getChartBrand/month')
+            .then(response => response.json())
+            .then(data => {
+                Highcharts.charts[0].series[0].update({
+                    data: data,
+                });
+            })
+        fetch('/api/getChartLogin/month')
+            .then(response => response.json())
+            .then(data => {
+                Highcharts.charts[1].series[0].update({
+                    data: data,
+                });
+            })
+    });
+
+    document.getElementById('year').addEventListener('click', function() {
+        fetch('/api/getChartBrand/year')
+            .then(response => response.json())
+            .then(data => {
+                Highcharts.charts[0].series[0].update({
+                    data: data,
+                });
+            })
+        fetch('/api/getChartLogin/year')
+            .then(response => response.json())
+            .then(data => {
+                Highcharts.charts[1].series[0].update({
+                    data: data,
+                });
+            })
+    });
+</script>
