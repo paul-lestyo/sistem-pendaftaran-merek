@@ -1,0 +1,32 @@
+<div id="mainContent">
+    <div class="">
+        <div class="email-app">
+            <div class="row remain-height bgc-white ov-h">
+                <div class="email-content h-100">
+                    <div class="h-100 scrollable pos-r">
+                        <div class="email-content-wrapper">
+                            <div class="peers ai-c jc-sb pY-30">
+                                <div class="peers peer-greed justify-content-center">
+                                        {{if .Announcement.ImageUrl }}
+                                            <img class="w-30p h-30p" alt="" src="{{.Announcement.ImageUrl}}">
+                                        {{end}}
+                                </div>
+                            </div>
+
+
+                            <div class="bdT pX-40 pY-30">
+                                <h4>{{.Announcement.Title}}</h4>
+                                <p class="fs-6 text-black-50">{{.Announcement.CreatedAt}}</p>
+                                <p>
+                                    {{.Announcement.Desc}}
+                                </p>
+
+                                <small>Tag : {{.Announcement.Tag}}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

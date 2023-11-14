@@ -78,6 +78,10 @@ func SetupRoutes(app *fiber.App) {
 	pemohonBrand.Post("/edit/:brandId", pemohon.UpdateBrand)
 	pemohonBrand.Get("/delete/:brandId", pemohon.DeleteBrand)
 
+	pemohonAnnouncement := pemohonGroup.Group("announcement")
+	pemohonAnnouncement.Get("/", pemohon.ListAnnouncement)
+	pemohonAnnouncement.Get("/:announcementId", pemohon.DetailAnnouncement)
+
 	user := app.Group("/user")
 	user.Get("/", controller.GetAllUsers)
 	//user.Get("/create", controller.CreateUser)

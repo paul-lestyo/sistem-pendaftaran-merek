@@ -1,0 +1,41 @@
+<div id="mainContent">
+    <div class="full-container">
+        <div class="email-app">
+            <div class="row remain-height bgc-white ov-h">
+                <div class="email-list h-100 layers">
+                    <div class="layer w-100">
+                        <div class="bgc-grey-100 peers ai-c jc-sb p-20 fxw-nw">
+                            <div class="peer">
+                                <h3>Pengumuman</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layer w-100 fxg-1 scrollable pos-r">
+                        <div class="">
+                            {{range $index, $element := .Announcements}}
+                                <a href="/pemohon/announcement/{{.ID}}">
+                                    <div class="peers fxw-nw p-20 bdB bgcH-grey-100 cur-p text-black">
+                                        <div class="peer mR-10">
+                                            {{if .ImageUrl }}
+                                                <img src="{{.ImageUrl}}" alt="" class="w-20p pb-3 mr-3" style="width: 100px">
+                                            {{end}}
+                                        </div>
+                                        <div class="peer peer-greed ov-h mL-10">
+                                            <div class="peers ai-c">
+                                                <div class="peer">
+                                                    <small>{{.CreatedAt}}</small>
+                                                </div>
+                                            </div>
+                                            <h5 class="fsz-def tt-c c-grey-900">{{.Title}}</h5>
+                                            <span class="whs-nw w-100 ov-h tov-e d-b">{{.Desc}}</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            {{end}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
