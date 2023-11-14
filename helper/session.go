@@ -3,12 +3,17 @@ package helper
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/session"
+	"github.com/gofiber/fiber/v2/utils"
 )
 
 var sessionStore *session.Store
 
 func init() {
-	sessionStore = session.New()
+	sessionStore = session.New(session.Config{
+		KeyLookup:         "cookie:session_id",
+		KeyGenerator:      utils.UUIDv4,
+		CookieSessionOnly: true,
+	})
 }
 
 func GetSession(c *fiber.Ctx, key string) interface{} {

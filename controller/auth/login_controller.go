@@ -1,7 +1,6 @@
 package auth
 
 import (
-	"fmt"
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/database"
@@ -9,11 +8,17 @@ import (
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/model"
 	"golang.org/x/crypto/bcrypt"
 	"strings"
+	"time"
 )
 
 var validate = validator.New()
 
 func Login(c *fiber.Ctx) error {
+	if c.Cookies("LoggedIn") != "" && c.Cookies("RoleUser") != "" {
+		helper.SetSession(c, "LoggedIn", c.Cookies("LoggedIn"))
+		helper.SetSession(c, "RoleUser", c.Cookies("RoleUser"))
+		return c.Redirect("/pemohon/dashboard")
+	}
 	message := helper.GetSession(c, "message")
 	helper.DeleteSession(c, "message")
 	messageSuccess := helper.GetSession(c, "messageSuccess")
@@ -26,7 +31,6 @@ func Login(c *fiber.Ctx) error {
 }
 
 func CheckLogin(c *fiber.Ctx) error {
-	fmt.Println("hoho")
 	email := c.FormValue("email")
 	password := c.FormValue("password")
 
@@ -37,12 +41,28 @@ func CheckLogin(c *fiber.Ctx) error {
 			helper.SetSession(c, "message", "Akun belum aktif. Silahkan hubungi admin untuk aktivasi")
 			return c.Redirect("/")
 		}
-		fmt.Println(bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)))
+
 		if err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err == nil {
 			helper.SetSession(c, "LoggedIn", user.ID.String())
 			helper.SetSession(c, "RoleUser", user.Role.Name)
 
-			log := model.Log{UserID: user.ID}
+			if c.FormValue("remember_me") == "on" {
+				c.Cookie(&fiber.Cookie{
+					Name:    "LoggedIn",
+					Value:   user.ID.String(),
+					Expires: time.Now().Add(24 * time.Hour),
+				})
+
+				c.Cookie(&fiber.Cookie{
+					Name:    "RoleUser",
+					Value:   user.Role.Name,
+					Expires: time.Now().Add(24 * time.Hour),
+				})
+			}
+
+			log := model.Log{
+				UserID: user.ID,
+			}
 			database.DB.Create(&log)
 
 			return c.Redirect(strings.ToLower(user.Role.Name) + "/dashboard")
@@ -55,5 +75,6 @@ func CheckLogin(c *fiber.Ctx) error {
 
 func Logout(c *fiber.Ctx) error {
 	helper.DestroySession(c)
+	c.ClearCookie()
 	return c.Redirect("/")
 }

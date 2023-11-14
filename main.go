@@ -2,11 +2,10 @@ package main
 
 import (
 	"github.com/go-faker/faker/v4"
-	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/encryptcookie"
 	"github.com/gofiber/fiber/v2/middleware/logger"
-	"github.com/gofiber/fiber/v2/middleware/session"
 	"github.com/gofiber/template/html/v2"
 	"github.com/google/uuid"
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/database"
@@ -16,9 +15,6 @@ import (
 	"math/rand"
 	"time"
 )
-
-var Validate = validator.New()
-var Store = session.New()
 
 func main() {
 	database.Connect()
@@ -43,7 +39,12 @@ func main() {
 	})
 	app.Use(logger.New())
 	app.Use(cors.New())
+	var testKey = encryptcookie.GenerateKey()
+	app.Use(encryptcookie.New(encryptcookie.Config{
+		Key: testKey,
+	}))
 	app.Static("/", "./assets")
+
 	router.SetupRoutes(app)
 
 	app.Use(func(c *fiber.Ctx) error {
