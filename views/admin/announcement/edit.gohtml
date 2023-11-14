@@ -1,0 +1,62 @@
+<div id="mainContent">
+    <h2>Add Admin</h2>
+    {{if .message}}
+        <div class="alert alert-success">
+            {{.message}}
+        </div>
+    {{end}}
+    <div class="row gap-20 masonry pos-r">
+        <div class="masonry-sizer col-md-6"></div>
+        <div class="masonry-item col-md-12">
+            <div class="bgc-white pX-20 pB-20 bd">
+                <div class="mT-30">
+                    <form method="POST" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label class="form-label" class="text-normal text-dark">Judul</label>
+                            <input type="text" class="form-control" name="title" value="{{.Announcement.Title}}">
+                            {{ with .Errors.Title }}
+                                <div class="alert alert-danger">
+                                    {{.}}
+                                </div>
+                            {{ end }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="name">Deskripsi</label>
+                            <textarea name="desc" class="form-control bdc-grey-200" rows="5">{{.Announcement.Desc}}</textarea>
+                            {{ with .Errors.Desc }}
+                                <div class="alert alert-danger">
+                                    {{.}}
+                                </div>
+                            {{ end }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" class="text-normal text-dark">Tag</label>
+                            <input type="text" class="form-control" name="tag" value="{{.Announcement.Tag}}">
+                            {{ with .Errors.Tag }}
+                                <div class="alert alert-danger">
+                                    {{.}}
+                                </div>
+                            {{ end }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="foto">Foto</label> <br>
+                            {{if .ImageUrl }}
+                                <img src="{{.ImageUrl}}" alt="" class="w-20p pb-3">
+                            {{end}}
+                            <input type="file" class="form-control" id="foto" name="image_url">
+                            <small id="emailHelp" class="text-muted">(png/jpg)</small>
+                            {{ with .Errors.ImageUrl }}
+                                <div class="alert alert-danger">
+                                    {{.}}
+                                </div>
+                            {{ end }}
+                        </div>
+                        <div class="mb-3">
+                            <button class="btn btn-primary btn-color">Edit Pengumuman</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

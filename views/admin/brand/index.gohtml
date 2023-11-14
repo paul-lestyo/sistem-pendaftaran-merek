@@ -24,7 +24,17 @@
                 <td>{{increment $index}}</td>
                 <td>{{.BrandName}}</td>
                 <td>{{.DescBrand}}</td>
-                <td>{{.Status}}</td>
+                <td>
+                    {{if eq .Status "OK"}}
+                        <span class="badge bgc-green-50 c-green-700 p-10 lh-0 tt-c rounded-pill">{{.Status}}</span>
+                    {{else if eq .Status "Perbaiki"}}
+                        <span class="badge bgc-yellow-50 c-yellow-700 p-10 lh-0 tt-c rounded-pill">{{.Status}}</span>
+                    {{else if eq .Status "Tolak"}}
+                        <span class="badge bgc-red-50 c-red-700 p-10 lh-0 tt-c rounded-pill">{{.Status}}</span>
+                    {{else}}
+                        <span class="badge bgc-purple-50 c-purple-700 p-10 lh-0 tt-c rounded-pill">{{.Status}}</span>
+                    {{end}}
+                </td>
                 <td>{{.Note}}</td>
                 <td>
                     <a href="/admin/brand/review/{{.ID}}"><button type="button" class="btn cur-p btn-info btn-color">

@@ -51,6 +51,14 @@ func SetupRoutes(app *fiber.App) {
 	adminBrand.Get("/review/:brandId", admin.ReviewBrand)
 	adminBrand.Post("/review/:brandId", admin.UpdateReviewBrand)
 
+	adminAnnouncement := adminGroup.Group("announcement")
+	adminAnnouncement.Get("/", admin.ListAnnouncement)
+	adminAnnouncement.Get("/add", admin.AddAnnouncement)
+	adminAnnouncement.Post("/add", admin.StoreAnnouncement)
+	adminAnnouncement.Get("/edit/:announcementId", admin.EditAnnouncement)
+	adminAnnouncement.Post("/edit/:announcementId", admin.UpdateAnnouncement)
+	adminAnnouncement.Get("/delete/:announcementId", admin.DeleteAnnouncement)
+
 	pemohonGroup := app.Group("/pemohon", PemohonAuth.AuthMiddleware)
 	pemohonGroup.Get("/dashboard", pemohon.Dashboard)
 
