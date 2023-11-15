@@ -26,7 +26,6 @@ func GetDataSearchPDKI(search string) []BrandPDKI {
 	url := "https://pdki-indonesia-api.dgip.go.id/api/trademark/search2?keyword=" + url.QueryEscape(search) + "&page=1&type=trademark&order_state=asc"
 	currentTime := time.Now()
 	formattedDate := currentTime.Format("20060102")
-
 	inputBytes := []byte(formattedDate + search + "arhoBkmdhcHsWSJPyLhLVqGNhAEontUgedqsNAAWjRkXkKDnrnNwolYRnEwGkaYaC")
 	hash := sha256.New()
 	hash.Write(inputBytes)

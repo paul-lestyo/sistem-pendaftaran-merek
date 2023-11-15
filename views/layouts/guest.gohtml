@@ -110,57 +110,11 @@
             <!-- ### $Sidebar Menu ### -->
             <ul class="sidebar-menu scrollable pos-r">
                 <li class="nav-item mT-30 actived">
-                    <a class="sidebar-link" href="/pemohon/dashboard">
+                    <a class="sidebar-link" href="/guest/dashboard">
                 <span class="icon-holder">
                   <i class="c-blue-500 ti-home"></i>
                 </span>
                         <span class="title">Dashboard</span>
-                    </a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="dropdown-toggle" href="javascript:void(0);">
-                <span class="icon-holder">
-                    <i class="c-purple-500 ti-map"></i>
-                  </span>
-                        <span class="title">Profil</span>
-                        <span class="arrow">
-                    <i class="ti-angle-right"></i>
-                  </span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="/pemohon/profile/user">User</a>
-                        </li>
-                        <li>
-                            <a href="/pemohon/profile/business">Bisnis</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="dropdown-toggle" href="javascript:void(0);">
-                <span class="icon-holder">
-                  <i class="c-orange-500 ti-layout-list-thumb"></i>
-                </span>
-                        <span class="title">Permohonan Merek</span>
-                        <span class="arrow">
-                  <i class="ti-angle-right"></i>
-                </span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a class="sidebar-link" href="/pemohon/brand/add">Tambah Permohonan</a>
-                        </li>
-                        <li>
-                            <a class="sidebar-link" href="/pemohon/brand">List Permohonan</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item actived">
-                    <a class="sidebar-link" href="/pemohon/announcement">
-                <span class="icon-holder">
-                  <i class="c-green-500 ti-announcement"></i>
-                </span>
-                        <span class="title">Pengumuman</span>
                     </a>
                 </li>
             </ul>
@@ -183,18 +137,20 @@
                     <li class="dropdown">
                         <a href="" class="dropdown-toggle no-after peers fxw-nw ai-c lh-1" data-bs-toggle="dropdown">
                             <div class="peer mR-10">
-                                {{if .User.ImageUrl }}
-                                    <img class="w-2r h-2r object-fit-contain bdrs-50p" src="{{.User.ImageUrl}}" alt="Profile Image">
-                                {{else}}
-                                    <img class="w-2r h-2r object-fit-contain bdrs-50p" src="/img/default-profile.png" alt="Profile Image">
-                                {{end}}
+                                <img class="w-2r h-2r object-fit-contain bdrs-50p" src="/img/default-profile.png" alt="Profile Image">
                             </div>
                             <div class="peer">
-                                <span class="fsz-sm c-grey-900">{{.User.Name}}</span>
+                                <span class="fsz-sm c-grey-900">Guest</span>
                             </div>
                         </a>
                         <ul class="dropdown-menu fsz-sm">
                             <li role="separator" class="divider"></li>
+                            <li>
+                                <a href="/register" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
+                                    <i class="ti-user mR-10"></i>
+                                    <span>Daftar</span>
+                                </a>
+                            </li>
                             <li>
                                 <a href="/logout" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
                                     <i class="ti-power-off mR-10"></i>

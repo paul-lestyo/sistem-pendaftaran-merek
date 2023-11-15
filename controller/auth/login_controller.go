@@ -19,6 +19,16 @@ func Login(c *fiber.Ctx) error {
 		helper.SetSession(c, "RoleUser", c.Cookies("RoleUser"))
 		return c.Redirect("/pemohon/dashboard")
 	}
+
+	if role := helper.GetSession(c, "RoleUser"); role != "" {
+		switch role {
+		case "Pemohon":
+			return c.Redirect("/pemohon/dashboard")
+		case "Admin":
+			return c.Redirect("/admin/dashboard")
+		}
+	}
+
 	message := helper.GetSession(c, "message")
 	helper.DeleteSession(c, "message")
 	messageSuccess := helper.GetSession(c, "messageSuccess")

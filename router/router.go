@@ -6,6 +6,7 @@ import (
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/controller/admin"
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/controller/api"
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/controller/auth"
+	"github.com/paul-lestyo/sistem-pendaftaran-merek/controller/guest"
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/controller/pemohon"
 	"github.com/paul-lestyo/sistem-pendaftaran-merek/middleware"
 )
@@ -17,6 +18,8 @@ func SetupRoutes(app *fiber.App) {
 	app.Get("/api/searchPDKI/:search", api.SearchDataPDKI)
 	app.Get("/api/getChartBrand/:date", api.GetDataChartPermohonanMerek)
 	app.Get("/api/getChartLogin/:date", api.GetDataChartLogin)
+
+	app.Get("/guest/dashboard", guest.Dashboard)
 
 	app.Get("/", auth.Login)
 	app.Post("/", auth.CheckLogin)
