@@ -17,9 +17,12 @@ import (
 )
 
 type BrandPDKI struct {
-	BrandName  string `json:"brand_name"`
-	Owner      string `json:"owner"`
-	Similarity string `json:"similarity"`
+	BrandName         string `json:"brand_name"`
+	Owner             string `json:"owner"`
+	Similarity        string `json:"similarity"`
+	StatusPermohonan  string `json:"status_permohonan"`
+	KategoriMerek     string `json:"kategori_merek"`
+	DescKategoriMerek string `json:"desc_kategori_merek"`
 }
 
 func GetDataSearchPDKI(search string) []BrandPDKI {
@@ -50,8 +53,11 @@ func GetDataSearchPDKI(search string) []BrandPDKI {
 
 	for i := 0; i < 3; i++ {
 		brand := BrandPDKI{
-			BrandName: gjson.Get(json, fmt.Sprintf("hits.hits.%d._source.image.0.brand_name", i)).String(),
-			Owner:     gjson.Get(json, fmt.Sprintf("hits.hits.%d._source.owner.0.tm_owner_name", i)).String(),
+			BrandName:         gjson.Get(json, fmt.Sprintf("hits.hits.%d._source.image.0.brand_name", i)).String(),
+			Owner:             gjson.Get(json, fmt.Sprintf("hits.hits.%d._source.owner.0.tm_owner_name", i)).String(),
+			StatusPermohonan:  gjson.Get(json, fmt.Sprintf("hits.hits.%d._source.status_permohonan", i)).String(),
+			KategoriMerek:     gjson.Get(json, fmt.Sprintf("hits.hits.%d._source.t_class.0.class_no", i)).String(),
+			DescKategoriMerek: gjson.Get(json, fmt.Sprintf("hits.hits.%d._source.t_class.0.class_desc", i)).String(),
 		}
 		if brand.BrandName != "" && brand.Owner != "" {
 			brand.Similarity = CheckSimilarity(search, brand.BrandName)
