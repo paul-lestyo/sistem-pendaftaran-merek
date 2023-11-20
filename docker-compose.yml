@@ -22,7 +22,7 @@ services:
       - ../../../../.:/go
       - ./assets/uploads/:/assets/uploads
   db_private:
-    image: mysql:5.7
+    image: mariadb:10.5.8
     restart: always
     environment:
       MYSQL_DATABASE: sistem_pendaftaran_merek
