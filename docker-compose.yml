@@ -39,8 +39,5 @@ services:
       - golang
     volumes:
       - ./mysql-entry-point:/docker-entrypoint-initdb.d
-      - my-db:/var/lib/mysql
+      - ./private_db:/var/lib/mysql
       - ./mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf
-# Names our volume
-volumes:
-  my-db:

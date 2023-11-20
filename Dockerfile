@@ -13,7 +13,8 @@ RUN go build -ldflags='-s -w' -o main .
 
 FROM scratch
 COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
-COPY --from=Build ["/build/","/build/main", "/build/.env", "/"]
+COPY --from=build /build/views/ /views/
+COPY --from=Build ["/build/main", "/build/.env", "/"]
 
 #we tell docker what to run when this image is run and run it as executable.
 ENTRYPOINT [ "/main" ]
