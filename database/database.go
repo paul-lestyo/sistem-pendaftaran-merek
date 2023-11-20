@@ -21,7 +21,7 @@ func Connect() {
 		fmt.Println("Error parsing str to int")
 	}
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local",
-		config.Config("DB_USER"),
+		config.Config("DB_ROOT"),
 		config.Config("DB_PASSWORD"),
 		config.Config("DB_HOST"),
 		port,

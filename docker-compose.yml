@@ -19,6 +19,7 @@ services:
       - db_private
     volumes:
       - ../../../../.:/go
+      - ./assets/uploads/:/assets/uploads
   db_private:
     image: mysql:5.7
     restart: always
@@ -32,9 +33,9 @@ services:
     networks:
       - golang
     volumes:
-      - ./mysql-entry-point.sql:/docker-entrypoint-initdb.d
-      - private-db:/var/lib/mysql
+      - ./mysql-entry-point:/docker-entrypoint-initdb.d
+      - my-db:/var/lib/mysql
       - ./mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf
 # Names our volume
 volumes:
-  private-db:
+  my-db:
