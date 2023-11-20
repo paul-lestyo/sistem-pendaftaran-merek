@@ -16,7 +16,8 @@ services:
     networks:
       - golang
     depends_on:
-      - db_private
+      db_private:
+        condition: service_healthy
     volumes:
       - ../../../../.:/go
       - ./assets/uploads/:/assets/uploads
@@ -28,6 +29,10 @@ services:
       MYSQL_USER: secret
       MYSQL_PASSWORD: secret
       MYSQL_ROOT_PASSWORD: secret
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 20s
+      retries: 10
     ports:
       - '3306:3306'
     networks:
